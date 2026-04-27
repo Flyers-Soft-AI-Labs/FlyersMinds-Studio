@@ -166,17 +166,16 @@ function GenerationPreviewContent() {
           fileName: string;
           providerId?: string;
           providerConfig?: { apiKey?: string; baseUrl?: string };
-        }> =
-          currentSession.pdfEntries?.length
-            ? currentSession.pdfEntries
-            : [
-                {
-                  storageKey: currentSession.pdfStorageKey!,
-                  fileName: currentSession.pdfFileName || 'document.pdf',
-                  providerId: currentSession.pdfProviderId,
-                  providerConfig: currentSession.pdfProviderConfig,
-                },
-              ];
+        }> = currentSession.pdfEntries?.length
+          ? currentSession.pdfEntries
+          : [
+              {
+                storageKey: currentSession.pdfStorageKey!,
+                fileName: currentSession.pdfFileName || 'document.pdf',
+                providerId: currentSession.pdfProviderId,
+                providerConfig: currentSession.pdfProviderConfig,
+              },
+            ];
 
         const multiPdf = entriesToParse.length > 1;
         let combinedText = '';
@@ -372,7 +371,9 @@ function GenerationPreviewContent() {
       const stageId = nanoid(10);
       const stage: Stage = {
         id: stageId,
-        name: currentSession.classroomName || extractTopicFromRequirement(currentSession.requirements.requirement),
+        name:
+          currentSession.classroomName ||
+          extractTopicFromRequirement(currentSession.requirements.requirement),
         description: '',
         style: 'professional',
         createdAt: Date.now(),

@@ -499,12 +499,8 @@ function HomePage() {
                 <BookOpen className="size-5" />
               </div>
               <div className="text-center">
-                <p className="text-[12px] font-medium text-slate-700">
-                  Classroom {i + 2}
-                </p>
-                <p className="mt-1 text-[11px] text-slate-800">
-                  Generate a lesson above to fill
-                </p>
+                <p className="text-[12px] font-medium text-slate-700">Classroom {i + 2}</p>
+                <p className="mt-1 text-[11px] text-slate-800">Generate a lesson above to fill</p>
               </div>
             </motion.div>
           ))}

@@ -10,9 +10,7 @@ export class HomePage {
     this.page = page;
     this.logo = page.getByText('OpenMAIC', { exact: true }).first();
     this.textarea = page.locator('textarea:not([data-slot])');
-    this.enterButton = page
-      .getByRole('button', { name: /enter/i })
-      .or(page.locator('button:has-text("进入课堂")'));
+    this.enterButton = page.getByRole('button', { name: /generate/i });
   }
 
   async goto() {

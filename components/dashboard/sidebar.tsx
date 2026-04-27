@@ -2,15 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import {
-  BookOpen,
-  Bot,
-  ChevronRight,
-  LayoutDashboard,
-  Settings,
-  Sparkles,
-  X,
-} from 'lucide-react';
+import { BookOpen, Bot, ChevronRight, LayoutDashboard, Settings, Sparkles, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { listStages } from '@/lib/utils/stage-storage';
@@ -124,9 +116,7 @@ export function DashboardSidebar({
                 <Sparkles className="size-5 text-blue-300" />
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-[0.32em] text-blue-300/50">
-                  OpenMAIC
-                </p>
+                <p className="text-[10px] uppercase tracking-[0.32em] text-blue-300/50">OpenMAIC</p>
                 <h2 className="mt-0.5 text-[15px] font-semibold text-white">AI Dashboard</h2>
               </div>
             </Link>

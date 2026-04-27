@@ -229,7 +229,10 @@ export function GenerationToolbar({
             {pdfFiles.length > 0 && (
               <div className="space-y-1.5 max-h-40 overflow-y-auto">
                 {pdfFiles.map((file, idx) => (
-                  <div key={`${file.name}-${idx}`} className="flex items-center gap-2 rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5">
+                  <div
+                    key={`${file.name}-${idx}`}
+                    className="flex items-center gap-2 rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5"
+                  >
                     <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-violet-100 dark:bg-violet-900/30">
                       <FileText className="size-3.5 text-violet-600 dark:text-violet-400" />
                     </div>
