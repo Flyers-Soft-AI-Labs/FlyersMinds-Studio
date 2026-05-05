@@ -88,9 +88,9 @@ function ProviderListColumn<T extends string>({
             key={provider.id}
             onClick={() => onSelect(provider.id)}
             className={cn(
-              'w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg transition-all border text-left',
+              'w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg transition-all border text-left text-foreground',
               selectedId === provider.id
-                ? 'bg-primary/5 border-primary/50 shadow-sm'
+                ? 'bg-primary/10 border-primary/50 shadow-sm text-primary'
                 : 'border-transparent hover:bg-muted/50',
             )}
           >
@@ -111,7 +111,7 @@ function ProviderListColumn<T extends string>({
             )}
             <span className="font-medium text-sm flex-1 truncate">{provider.name}</span>
             {configs[provider.id]?.isServerConfigured && (
-              <span className="text-[10px] px-1 py-0 h-4 leading-4 rounded shrink-0 bg-muted text-muted-foreground">
+              <span className="text-[10px] px-1 py-0 h-4 leading-4 rounded shrink-0 bg-muted text-foreground">
                 {t('settings.serverConfigured')}
               </span>
             )}
@@ -530,7 +530,7 @@ export function SettingsDialog({ open, onOpenChange, initialSection }: SettingsD
   const getHeaderContent = () => {
     switch (activeSection) {
       case 'general':
-        return <h2 className="text-lg font-semibold">{t('settings.systemSettings')}</h2>;
+        return <h2 className="text-lg font-semibold">General / System</h2>;
       case 'providers':
         if (selectedProvider) {
           return (
@@ -712,7 +712,7 @@ export function SettingsDialog({ open, onOpenChange, initialSection }: SettingsD
                 'w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors text-left min-w-0',
                 activeSection === 'providers'
                   ? 'bg-primary/10 text-primary font-medium'
-                  : 'hover:bg-muted',
+                  : 'text-foreground hover:bg-muted',
               )}
             >
               <Box className="h-4 w-4 shrink-0" />
@@ -725,7 +725,7 @@ export function SettingsDialog({ open, onOpenChange, initialSection }: SettingsD
                 'w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors text-left min-w-0',
                 activeSection === 'image'
                   ? 'bg-primary/10 text-primary font-medium'
-                  : 'hover:bg-muted',
+                  : 'text-foreground hover:bg-muted',
               )}
             >
               <ImageIcon className="h-4 w-4 shrink-0" />
@@ -738,7 +738,7 @@ export function SettingsDialog({ open, onOpenChange, initialSection }: SettingsD
                 'w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors text-left min-w-0',
                 activeSection === 'video'
                   ? 'bg-primary/10 text-primary font-medium'
-                  : 'hover:bg-muted',
+                  : 'text-foreground hover:bg-muted',
               )}
             >
               <Film className="h-4 w-4 shrink-0" />
@@ -751,7 +751,7 @@ export function SettingsDialog({ open, onOpenChange, initialSection }: SettingsD
                 'w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors text-left min-w-0',
                 activeSection === 'tts'
                   ? 'bg-primary/10 text-primary font-medium'
-                  : 'hover:bg-muted',
+                  : 'text-foreground hover:bg-muted',
               )}
             >
               <Volume2 className="h-4 w-4 shrink-0" />
@@ -764,7 +764,7 @@ export function SettingsDialog({ open, onOpenChange, initialSection }: SettingsD
                 'w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors text-left min-w-0',
                 activeSection === 'asr'
                   ? 'bg-primary/10 text-primary font-medium'
-                  : 'hover:bg-muted',
+                  : 'text-foreground hover:bg-muted',
               )}
             >
               <Mic className="h-4 w-4 shrink-0" />
@@ -777,7 +777,7 @@ export function SettingsDialog({ open, onOpenChange, initialSection }: SettingsD
                 'w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors text-left min-w-0',
                 activeSection === 'pdf'
                   ? 'bg-primary/10 text-primary font-medium'
-                  : 'hover:bg-muted',
+                  : 'text-foreground hover:bg-muted',
               )}
             >
               <FileText className="h-4 w-4 shrink-0" />
@@ -790,7 +790,7 @@ export function SettingsDialog({ open, onOpenChange, initialSection }: SettingsD
                 'w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors text-left min-w-0',
                 activeSection === 'web-search'
                   ? 'bg-primary/10 text-primary font-medium'
-                  : 'hover:bg-muted',
+                  : 'text-foreground hover:bg-muted',
               )}
             >
               <Search className="h-4 w-4 shrink-0" />
@@ -803,11 +803,11 @@ export function SettingsDialog({ open, onOpenChange, initialSection }: SettingsD
                 'w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors text-left min-w-0',
                 activeSection === 'general'
                   ? 'bg-primary/10 text-primary font-medium'
-                  : 'hover:bg-muted',
+                  : 'text-foreground hover:bg-muted',
               )}
             >
               <Settings className="h-4 w-4 shrink-0" />
-              <span className="truncate">{t('settings.systemSettings')}</span>
+              <span className="truncate">General / System</span>
             </button>
           </div>
 

@@ -214,7 +214,9 @@ export function ModelSelector({
                 onClick={() => setActiveProvider(provider.id)}
                 className={cn(
                   'w-full flex items-center gap-2 px-3 py-2.5 text-left transition-colors border-b',
-                  isActive ? 'bg-primary text-primary-foreground' : 'hover:bg-muted/50',
+                  isActive
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground hover:bg-muted/50',
                 )}
               >
                 {provider.icon ? (
@@ -241,7 +243,7 @@ export function ModelSelector({
                           'text-[10px] px-1 py-0 h-4 leading-4 rounded shrink-0 inline-block',
                           isActive
                             ? 'bg-white/20 text-primary-foreground'
-                            : 'bg-muted text-muted-foreground',
+                            : 'bg-muted text-foreground',
                         )}
                       >
                         {t('settings.serverConfigured')}

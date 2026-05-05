@@ -147,7 +147,7 @@ export function UserProfileCard() {
                 onBlur={commitName}
                 maxLength={20}
                 placeholder={t('profile.defaultNickname')}
-                className="flex-1 min-w-0 h-7 bg-transparent border-b-2 border-violet-400 dark:border-violet-500 text-sm font-semibold text-foreground outline-none placeholder:text-muted-foreground/40"
+                className="flex-1 min-w-0 h-7 bg-transparent border-b-2 border-violet-400 dark:border-violet-500 text-sm font-semibold text-foreground outline-none placeholder:text-muted-foreground/80"
               />
               <button
                 onClick={commitName}
@@ -162,10 +162,10 @@ export function UserProfileCard() {
               className="group/name flex items-center gap-1.5 cursor-pointer"
             >
               <span className="text-sm font-semibold text-foreground truncate">{displayName}</span>
-              <Pencil className="size-3 text-muted-foreground/40 opacity-0 group-hover/name:opacity-100 transition-opacity" />
+              <Pencil className="size-3 text-muted-foreground/70 opacity-0 group-hover/name:opacity-100 transition-opacity" />
             </button>
           )}
-          <p className="text-[10px] text-muted-foreground/50 mt-0.5">{t('profile.avatarHint')}</p>
+          <p className="text-[10px] text-muted-foreground mt-0.5">{t('profile.avatarHint')}</p>
         </div>
       </div>
 
@@ -205,7 +205,7 @@ export function UserProfileCard() {
                   'hover:scale-110 active:scale-95',
                   isCustomAvatar(avatar)
                     ? 'ring-2 ring-violet-400 dark:ring-violet-500 ring-offset-1 ring-offset-white dark:ring-offset-slate-900 border-violet-300 dark:border-violet-600 bg-violet-50 dark:bg-violet-900/30'
-                    : 'border-muted-foreground/30 text-muted-foreground/50 hover:border-muted-foreground/50',
+                    : 'border-muted-foreground/50 text-muted-foreground hover:border-muted-foreground',
                 )}
                 title={t('profile.uploadAvatar')}
               >

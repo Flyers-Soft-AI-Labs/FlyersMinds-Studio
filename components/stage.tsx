@@ -20,7 +20,10 @@ import type { Action, DiscussionAction, SpeechAction } from '@/lib/types/action'
 import { cn } from '@/lib/utils';
 // Playback state persistence removed — refresh always starts from the beginning
 import { ChatArea, type ChatAreaRef } from '@/components/chat/chat-area';
+import { RaiseHandPanel } from '@/components/classroom/raise-hand-panel';
 import { agentsToParticipants, useAgentRegistry } from '@/lib/orchestration/registry/store';
+import { buildRaiseHandContext } from '@/lib/classroom/raise-hand-context';
+import { getCurrentModelConfig } from '@/lib/utils/model-config';
 import type { AgentConfig } from '@/lib/orchestration/registry/types';
 import {
   AlertDialog,
@@ -101,6 +104,11 @@ export function Stage({
   const [isPresenting, setIsPresenting] = useState(false);
   const [controlsVisible, setControlsVisible] = useState(true);
   const [isPresentationInteractionActive, setIsPresentationInteractionActive] = useState(false);
+  const [isHandRaised, setIsHandRaised] = useState(false);
+  const [raisedHandQuestion, setRaisedHandQuestion] = useState('');
+  const [assistantAnswer, setAssistantAnswer] = useState<string | null>(null);
+  const [assistantAnswerLoading, setAssistantAnswerLoading] = useState(false);
+  const [assistantAnswerError, setAssistantAnswerError] = useState<string | null>(null);
 
   // Whiteboard state (from canvas store so AI tools can open it)
   const whiteboardOpen = useCanvasStore.use.whiteboardOpen();
@@ -169,6 +177,7 @@ export function Stage({
   const sceneEpochRef = useRef(0);
   // When true, the next engine init will auto-start playback (for auto-play scene advance)
   const autoStartRef = useRef(false);
+  const raiseHandInterruptedModeRef = useRef<EngineMode | null>(null);
   // Discussion buffer-level pause state (distinct from soft-pause which aborts SSE)
   const [isDiscussionPaused, setIsDiscussionPaused] = useState(false);
 
@@ -212,6 +221,12 @@ export function Stage({
     setShowEndFlash(false);
     setActiveBubbleId(null);
     setDiscussionTrigger(null);
+    setIsHandRaised(false);
+    setRaisedHandQuestion('');
+    setAssistantAnswer(null);
+    setAssistantAnswerError(null);
+    setAssistantAnswerLoading(false);
+    raiseHandInterruptedModeRef.current = null;
   }, [resetLiveState]);
 
   /** Request failure should exit live discussion UI without hard-closing the session. */
@@ -727,6 +742,111 @@ export function Stage({
     }
   }, [playbackCompleted, currentScene]);
 
+  const handleRaiseHand = useCallback(() => {
+    if (!currentScene || isHandRaised) return;
+
+    const engine = engineRef.current;
+    const mode = engine?.getMode() ?? 'idle';
+    raiseHandInterruptedModeRef.current = mode;
+
+    if (mode === 'playing' || mode === 'live') {
+      engine?.pause();
+      if (lectureSessionIdRef.current) {
+        chatAreaRef.current?.pauseBuffer(lectureSessionIdRef.current);
+      }
+    }
+
+    const canvasState = useCanvasStore.getState();
+    if (canvasState.playingVideoElementId) {
+      canvasState.pauseVideo();
+    }
+
+    setAssistantAnswer(null);
+    setAssistantAnswerError(null);
+    setRaisedHandQuestion('');
+    setIsHandRaised(true);
+  }, [currentScene, isHandRaised]);
+
+  const handleRaiseHandSubmit = useCallback(async () => {
+    const question = raisedHandQuestion.trim();
+    if (!question || assistantAnswerLoading) return;
+
+    setAssistantAnswerLoading(true);
+    setAssistantAnswer(null);
+    setAssistantAnswerError(null);
+
+    try {
+      const stageState = useStageStore.getState();
+      const canvasState = useCanvasStore.getState();
+      const context = buildRaiseHandContext({
+        stage: stageState.stage,
+        scenes: stageState.scenes,
+        currentSceneId: stageState.currentSceneId,
+        currentSpeechText: lectureSpeech,
+        activeVideoElementId: canvasState.playingVideoElementId,
+      });
+      const modelConfig = getCurrentModelConfig();
+
+      const response = await fetch('/api/classroom/raise-hand', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          stageId: stageState.stage?.id,
+          sceneId: stageState.currentSceneId,
+          question,
+          context,
+          gradeBand: '9-10',
+          apiKey: modelConfig.apiKey,
+          baseUrl: modelConfig.baseUrl,
+          model: modelConfig.modelString,
+          providerType: modelConfig.providerType,
+        }),
+      });
+
+      if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || `Request failed with status ${response.status}`);
+      }
+
+      const data = (await response.json()) as { answer?: string };
+      setAssistantAnswer(data.answer || 'I could not create an answer for that question.');
+    } catch (error) {
+      setAssistantAnswerError(
+        error instanceof Error ? error.message : 'Failed to answer your question.',
+      );
+    } finally {
+      setAssistantAnswerLoading(false);
+    }
+  }, [assistantAnswerLoading, lectureSpeech, raisedHandQuestion]);
+
+  const handleResumeFromRaiseHand = useCallback(() => {
+    setIsHandRaised(false);
+    setRaisedHandQuestion('');
+    setAssistantAnswer(null);
+    setAssistantAnswerError(null);
+    setAssistantAnswerLoading(false);
+
+    const interruptedMode = raiseHandInterruptedModeRef.current;
+    raiseHandInterruptedModeRef.current = null;
+
+    const canvasState = useCanvasStore.getState();
+    if (canvasState.playingVideoElementId && canvasState.videoPlaybackPaused) {
+      canvasState.resumeVideo();
+    }
+
+    if (interruptedMode === 'playing' || interruptedMode === 'live') {
+      engineRef.current?.resume();
+      if (lectureSessionIdRef.current) {
+        chatAreaRef.current?.resumeBuffer(lectureSessionIdRef.current);
+      }
+    }
+  }, []);
+
+  const handleCloseRaiseHand = useCallback(() => {
+    if (assistantAnswerLoading) return;
+    handleResumeFromRaiseHand();
+  }, [assistantAnswerLoading, handleResumeFromRaiseHand]);
+
   // get scene information
   const isPendingScene = currentSceneId === PENDING_SCENE_ID;
   const hasNextPending = generatingOutlines.length > 0;
@@ -968,6 +1088,8 @@ export function Stage({
             onPrevSlide={handlePreviousScene}
             onNextSlide={handleNextScene}
             onPlayPause={handlePlayPause}
+            onRaiseHand={handleRaiseHand}
+            isHandRaised={isHandRaised}
             onWhiteboardClose={handleWhiteboardToggle}
             isPresenting={isPresenting}
             onTogglePresentation={togglePresentation}
@@ -986,6 +1108,17 @@ export function Stage({
                 ? () => onRetryOutline(generatingOutlines[0].id)
                 : undefined
             }
+          />
+          <RaiseHandPanel
+            open={isHandRaised}
+            question={raisedHandQuestion}
+            answer={assistantAnswer}
+            loading={assistantAnswerLoading}
+            error={assistantAnswerError}
+            onQuestionChange={setRaisedHandQuestion}
+            onSubmit={handleRaiseHandSubmit}
+            onResume={handleResumeFromRaiseHand}
+            onClose={handleCloseRaiseHand}
           />
         </div>
 
@@ -1096,6 +1229,8 @@ export function Stage({
               }}
               onResumeTopic={doResumeTopic}
               onPlayPause={handlePlayPause}
+              onRaiseHand={handleRaiseHand}
+              isHandRaised={isHandRaised}
               isDiscussionPaused={isDiscussionPaused}
               onDiscussionPause={() => {
                 const paused = chatAreaRef.current?.pauseActiveLiveBuffer();

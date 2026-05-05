@@ -180,13 +180,13 @@ export default function ClassroomDetailPage() {
         <section className="grid gap-4 lg:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.75fr)]">
           <DashboardCard className="p-6 sm:p-7">
             <div className="relative z-10">
-              <p className="text-xs uppercase tracking-[0.28em] text-slate-500">
+              <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
                 Classroom Workspace
               </p>
               <h2 className="mt-3 text-3xl font-semibold text-white">
                 {stage?.name || 'Interactive classroom'}
               </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300">
                 Review scenes, manage live playback, and keep the classroom pipeline flowing without
                 leaving the dashboard.
               </p>
@@ -200,7 +200,7 @@ export default function ClassroomDetailPage() {
                 <DashboardCard key={card.label} className="p-5">
                   <div className="relative z-10 flex items-center justify-between gap-3">
                     <div>
-                      <p className="text-xs uppercase tracking-[0.22em] text-slate-500">
+                      <p className="text-xs uppercase tracking-[0.22em] text-slate-400">
                         {card.label}
                       </p>
                       <p className="mt-3 text-2xl font-semibold text-white">{card.value}</p>

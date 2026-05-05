@@ -636,7 +636,7 @@ function ScoreBanner({
           <p className="text-white/80 text-sm font-medium">{c.text}</p>
           <div className="flex items-baseline gap-1 mt-1">
             <span className="text-4xl font-black">{score}</span>
-            <span className="text-white/60 text-lg">/ {total}</span>
+            <span className="text-white text-lg">/ {total}</span>
           </div>
           <div className="flex gap-3 mt-3 text-xs">
             <span className="flex items-center gap-1">

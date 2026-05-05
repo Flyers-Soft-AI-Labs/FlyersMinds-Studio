@@ -68,6 +68,8 @@ interface RoundtableProps {
 
   readonly onResumeTopic?: () => void;
   readonly onPlayPause?: () => void;
+  readonly onRaiseHand?: () => void;
+  readonly isHandRaised?: boolean;
   readonly isDiscussionPaused?: boolean;
   readonly onDiscussionPause?: () => void;
   readonly onDiscussionResume?: () => void;
@@ -156,6 +158,8 @@ export function Roundtable({
 
   onResumeTopic,
   onPlayPause,
+  onRaiseHand,
+  isHandRaised,
   isDiscussionPaused,
   onDiscussionPause,
   onDiscussionResume,
@@ -634,6 +638,8 @@ export function Roundtable({
       onPrevSlide={onPrevSlide ?? (() => {})}
       onNextSlide={onNextSlide ?? (() => {})}
       onPlayPause={onPlayPause ?? (() => {})}
+      onRaiseHand={onRaiseHand}
+      isHandRaised={isHandRaised}
       onWhiteboardClose={onWhiteboardClose ?? (() => {})}
       isPresenting={isPresenting}
       onTogglePresentation={onTogglePresentation}

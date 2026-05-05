@@ -364,9 +364,7 @@ export function TTSSettings({ selectedProviderId }: TTSSettingsProps) {
               </div>
             ))}
           </div>
-          <p className="text-[11px] text-muted-foreground/60">
-            {t('settings.modelSelectedViaVoice')}
-          </p>
+          <p className="text-[11px] text-muted-foreground">{t('settings.modelSelectedViaVoice')}</p>
         </div>
       )}
 
@@ -401,10 +399,10 @@ export function TTSSettings({ selectedProviderId }: TTSSettingsProps) {
                     index > 0 && 'border-t border-border/30',
                   )}
                 >
-                  <span className="text-sm font-mono text-foreground/80 truncate pr-3">
+                  <span className="text-sm font-mono text-foreground truncate pr-3">
                     {voice.id}
                   </span>
-                  <span className="text-sm text-foreground/60 truncate pr-3">{voice.name}</span>
+                  <span className="text-sm text-foreground/80 truncate pr-3">{voice.name}</span>
                   <Button
                     variant="ghost"
                     size="icon"
@@ -428,7 +426,7 @@ export function TTSSettings({ selectedProviderId }: TTSSettingsProps) {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground/50 italic">{t('settings.noVoicesAdded')}</p>
+            <p className="text-sm text-muted-foreground italic">{t('settings.noVoicesAdded')}</p>
           )}
           <AddVoiceRow
             existingIds={(

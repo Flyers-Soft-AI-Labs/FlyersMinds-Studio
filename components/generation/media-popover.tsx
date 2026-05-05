@@ -436,7 +436,7 @@ export function MediaPopover({ onSettingsOpen }: MediaPopoverProps) {
               enabled={ttsEnabled}
               onToggle={setTTSEnabled}
             >
-              <p className="text-[11px] text-muted-foreground/60">
+              <p className="text-[11px] text-muted-foreground">
                 {t('settings.ttsVoiceConfigHint')}
               </p>
             </TabPanel>
@@ -469,7 +469,7 @@ export function MediaPopover({ onSettingsOpen }: MediaPopoverProps) {
               setOpen(false);
               onSettingsOpen(activeTab);
             }}
-            className="w-full flex items-center justify-between px-3.5 py-2.5 text-[11px] text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+            className="w-full flex items-center justify-between px-3.5 py-2.5 text-[11px] text-muted-foreground hover:text-foreground transition-colors"
           >
             <span>{t('toolbar.advancedSettings')}</span>
             <ChevronRight className="size-3" />
@@ -500,7 +500,7 @@ function TabPanel({
         <Icon
           className={cn(
             'size-4 shrink-0 transition-colors',
-            enabled ? 'text-violet-600 dark:text-violet-400' : 'text-muted-foreground/50',
+            enabled ? 'text-violet-600 dark:text-violet-400' : 'text-muted-foreground',
           )}
         />
         <span
@@ -565,7 +565,7 @@ function GroupedSelect({
             <img src={selectedGroup.groupIcon} alt="" className="size-4 rounded-sm shrink-0" />
           )}
           <span className="font-medium truncate">{selectedGroup?.groupName}</span>
-          <span className="text-muted-foreground/40">/</span>
+          <span className="text-muted-foreground">/</span>
           <span className="text-muted-foreground truncate">
             <SelectValue />
           </span>

@@ -131,7 +131,12 @@ function loadEnvSection(
   {
     requiresBaseUrl = false,
     keylessProviders = new Set<string>(),
-  }: { requiresBaseUrl?: boolean; keylessProviders?: Set<string> } = {},
+    activateWithBaseUrlOrModels = false,
+  }: {
+    requiresBaseUrl?: boolean;
+    keylessProviders?: Set<string>;
+    activateWithBaseUrlOrModels?: boolean;
+  } = {},
 ): Record<string, ServerProviderEntry> {
   const result: Record<string, ServerProviderEntry> = {};
 
@@ -177,7 +182,11 @@ function loadEnvSection(
     if (
       requiresBaseUrl
         ? !envBaseUrl
-        : !(envApiKey || (envBaseUrl && keylessProviders.has(providerId)))
+        : !(
+            envApiKey ||
+            (envBaseUrl && keylessProviders.has(providerId)) ||
+            (activateWithBaseUrlOrModels && (envBaseUrl || envModels?.length))
+          )
     )
       continue;
     result[providerId] = {
@@ -203,6 +212,7 @@ function buildConfig(yamlData: YamlData): ServerConfig {
   return {
     providers: loadEnvSection(LLM_ENV_MAP, yamlData.providers, {
       keylessProviders: new Set(['ollama']),
+      activateWithBaseUrlOrModels: true,
     }),
     tts: loadEnvSection(TTS_ENV_MAP, yamlData.tts),
     asr: loadEnvSection(ASR_ENV_MAP, yamlData.asr),

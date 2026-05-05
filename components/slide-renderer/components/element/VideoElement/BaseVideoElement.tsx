@@ -27,7 +27,9 @@ export function BaseVideoElement({ elementInfo }: BaseVideoElementProps) {
   const { t } = useI18n();
   const videoRef = useRef<HTMLVideoElement>(null);
   const playingVideoElementId = useCanvasStore.use.playingVideoElementId();
+  const videoPlaybackPaused = useCanvasStore.use.videoPlaybackPaused();
   const prevPlayingRef = useRef('');
+  const prevPausedRef = useRef(false);
   const [scope, animate] = useAnimate<HTMLDivElement>();
 
   // Only subscribe to media store when inside a classroom (stageId provided via context).
@@ -63,9 +65,13 @@ export function BaseVideoElement({ elementInfo }: BaseVideoElementProps) {
 
     const isMe = playingVideoElementId === elementInfo.id;
     const wasMe = prevPlayingRef.current === elementInfo.id;
+    const wasPaused = prevPausedRef.current;
     prevPlayingRef.current = playingVideoElementId;
+    prevPausedRef.current = videoPlaybackPaused;
 
-    if (isMe && !wasMe) {
+    if (isMe && videoPlaybackPaused) {
+      video.pause();
+    } else if (isMe && (!wasMe || wasPaused)) {
       // "Tap" press animation — a deliberate, teacher-paced click feel
       animate(
         scope.current,
@@ -82,11 +88,11 @@ export function BaseVideoElement({ elementInfo }: BaseVideoElementProps) {
     } else if (!isMe && wasMe) {
       video.pause();
     }
-  }, [playingVideoElementId, elementInfo.id, animate, scope]);
+  }, [playingVideoElementId, videoPlaybackPaused, elementInfo.id, animate, scope]);
 
   const handleEnded = () => {
     if (useCanvasStore.getState().playingVideoElementId === elementInfo.id) {
-      useCanvasStore.getState().pauseVideo();
+      useCanvasStore.getState().stopVideo();
     }
   };
 
