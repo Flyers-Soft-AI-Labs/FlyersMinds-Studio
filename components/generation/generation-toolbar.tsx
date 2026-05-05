@@ -229,7 +229,10 @@ export function GenerationToolbar({
             {pdfFiles.length > 0 && (
               <div className="space-y-1.5 max-h-40 overflow-y-auto">
                 {pdfFiles.map((file, idx) => (
-                  <div key={`${file.name}-${idx}`} className="flex items-center gap-2 rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5">
+                  <div
+                    key={`${file.name}-${idx}`}
+                    className="flex items-center gap-2 rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5"
+                  >
                     <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-violet-100 dark:bg-violet-900/30">
                       <FileText className="size-3.5 text-violet-600 dark:text-violet-400" />
                     </div>
@@ -242,7 +245,7 @@ export function GenerationToolbar({
                     <button
                       type="button"
                       onClick={() => removeFile(idx)}
-                      className="shrink-0 rounded-full p-0.5 text-muted-foreground/50 transition-colors hover:bg-destructive/10 hover:text-destructive"
+                      className="shrink-0 rounded-full p-0.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
                     >
                       <X className="size-3" />
                     </button>
@@ -271,13 +274,11 @@ export function GenerationToolbar({
                 handleFilesSelect(e.dataTransfer.files);
               }}
             >
-              <Paperclip className="size-4 text-muted-foreground/50 mb-1" />
+              <Paperclip className="size-4 text-muted-foreground mb-1" />
               <p className="text-xs font-medium">
                 {pdfFiles.length > 0 ? 'Add more PDFs' : t('toolbar.pdfUpload')}
               </p>
-              <p className="mt-0.5 text-[10px] text-muted-foreground/60">
-                {t('upload.pdfSizeLimit')}
-              </p>
+              <p className="mt-0.5 text-[10px] text-muted-foreground">{t('upload.pdfSizeLimit')}</p>
             </div>
 
             {/* Clear all */}
@@ -372,7 +373,7 @@ export function GenerationToolbar({
       ) : (
         <Tooltip>
           <TooltipTrigger asChild>
-            <button className={cn(pillCls, 'text-muted-foreground/40 cursor-not-allowed')} disabled>
+            <button className={cn(pillCls, 'text-muted-foreground/70 cursor-not-allowed')} disabled>
               <Globe2 className="size-3.5" />
             </button>
           </TooltipTrigger>

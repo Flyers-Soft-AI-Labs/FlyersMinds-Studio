@@ -52,7 +52,7 @@ export function DashboardHeader({ onMenuClick }: { onMenuClick: () => void }) {
                 <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
                   {title}
                 </h1>
-                <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-400">{description}</p>
+                <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-300">{description}</p>
               </div>
             </div>
 
@@ -81,7 +81,7 @@ export function DashboardHeader({ onMenuClick }: { onMenuClick: () => void }) {
 
               <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.04))] px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
                 <div className="hidden text-right sm:block">
-                  <p className="text-xs uppercase tracking-[0.22em] text-slate-500">Active User</p>
+                  <p className="text-xs uppercase tracking-[0.22em] text-slate-400">Active User</p>
                   <p className="mt-1 text-sm font-medium text-white">{nickname || 'Learner'}</p>
                 </div>
                 <div className="flex size-11 items-center justify-center overflow-hidden rounded-2xl border border-blue-400/25 bg-[linear-gradient(180deg,rgba(59,130,246,0.18),rgba(59,130,246,0.08))] shadow-[0_0_30px_rgba(59,130,246,0.12)]">

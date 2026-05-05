@@ -18,11 +18,17 @@ import { useI18n } from '@/lib/hooks/use-i18n';
 import { clearDatabase } from '@/lib/utils/database';
 import { toast } from 'sonner';
 import { createLogger } from '@/lib/logger';
+import { useSettingsStore } from '@/lib/store/settings';
+import { ModelSelector } from './model-selector';
 
 const log = createLogger('GeneralSettings');
 
 export function GeneralSettings() {
   const { t } = useI18n();
+  const providerId = useSettingsStore((state) => state.providerId);
+  const modelId = useSettingsStore((state) => state.modelId);
+  const providersConfig = useSettingsStore((state) => state.providersConfig);
+  const setModel = useSettingsStore((state) => state.setModel);
 
   // Clear cache state
   const [showClearDialog, setShowClearDialog] = useState(false);
@@ -63,6 +69,21 @@ export function GeneralSettings() {
 
   return (
     <div className="flex flex-col gap-8">
+      <div className="space-y-3">
+        <div>
+          <h3 className="text-sm font-semibold text-foreground">Active Model</h3>
+          <p className="text-xs text-muted-foreground mt-1">
+            Choose the default LLM used for generation, chat, and classroom assistance.
+          </p>
+        </div>
+        <ModelSelector
+          providerId={providerId}
+          modelId={modelId}
+          providersConfig={providersConfig}
+          onModelChange={setModel}
+        />
+      </div>
+
       {/* Danger Zone - Clear Cache */}
       <div className="relative rounded-xl border border-destructive/30 bg-destructive/[0.03] dark:bg-destructive/[0.06] overflow-hidden">
         {/* Subtle diagonal stripe pattern for danger emphasis */}

@@ -69,7 +69,7 @@ export function SpeechButton({
             sizeClasses,
             active
               ? 'bg-violet-500/90 dark:bg-violet-600/80 text-white shadow-[0_0_12px_rgba(139,92,246,0.45)] dark:shadow-[0_0_12px_rgba(139,92,246,0.3)]'
-              : 'text-muted-foreground/60 hover:text-muted-foreground hover:bg-muted/80',
+              : 'text-muted-foreground hover:text-foreground hover:bg-muted/80',
             disabled && 'opacity-40 pointer-events-none',
             className,
           )}

@@ -5,7 +5,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { ProviderId } from '@/lib/ai/providers';
+import type { ProviderId, ModelInfo } from '@/lib/ai/providers';
 import type { ProvidersConfig } from '@/lib/types/settings';
 import { PROVIDERS } from '@/lib/ai/providers';
 import type { TTSProviderId, ASRProviderId, BuiltInTTSProviderId } from '@/lib/audio/types';
@@ -473,6 +473,25 @@ function ensureBuiltInProviders(state: Partial<SettingsState>): void {
   });
 }
 
+function mergeServerModels(models: ModelInfo[] = [], serverModelIds?: string[]): ModelInfo[] {
+  if (!serverModelIds?.length) return models;
+
+  const existingModelIds = new Set(models.map((model) => model.id));
+  const serverModels = serverModelIds
+    .filter((modelId) => !existingModelIds.has(modelId))
+    .map((modelId) => ({
+      id: modelId,
+      name: modelId,
+      capabilities: {
+        streaming: true,
+        tools: true,
+        vision: false,
+      },
+    }));
+
+  return [...serverModels, ...models];
+}
+
 /**
  * Custom providers created before #414 stored their actual endpoint in
  * defaultBaseUrl while leaving baseUrl empty. Promote that persisted value
@@ -918,16 +937,13 @@ export const useSettingsStore = create<SettingsState>()(
                 const key = pid as ProviderId;
                 if (newProvidersConfig[key]) {
                   const currentModels = newProvidersConfig[key].models;
-                  // When server specifies allowed models, filter the models list
-                  const filteredModels = info.models?.length
-                    ? currentModels.filter((m) => info.models!.includes(m.id))
-                    : currentModels;
+                  const mergedModels = mergeServerModels(currentModels, info.models);
                   newProvidersConfig[key] = {
                     ...newProvidersConfig[key],
                     isServerConfigured: true,
                     serverModels: info.models,
                     serverBaseUrl: info.baseUrl,
-                    models: filteredModels,
+                    models: mergedModels,
                   };
                 }
               }

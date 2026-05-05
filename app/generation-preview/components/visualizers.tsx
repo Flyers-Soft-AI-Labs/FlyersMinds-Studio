@@ -191,7 +191,7 @@ function WebSearchVisualizer({ sources }: { sources: Array<{ title: string; url:
                         'text-[8px] font-semibold truncate transition-colors duration-300 leading-tight',
                         isActive
                           ? 'text-teal-600 dark:text-teal-400'
-                          : 'text-slate-600 dark:text-slate-400',
+                          : 'text-slate-700 dark:text-slate-300',
                       )}
                     >
                       {source.title}
@@ -724,7 +724,7 @@ function ActionsVisualizer() {
                 <div
                   className={cn(
                     'size-4 rounded flex items-center justify-center shrink-0 transition-colors duration-300',
-                    isActive ? item.color : 'text-slate-300 dark:text-slate-600',
+                    isActive ? item.color : 'text-slate-500 dark:text-slate-300',
                   )}
                 >
                   <Icon className="size-3" />

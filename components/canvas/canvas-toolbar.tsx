@@ -15,6 +15,7 @@ import {
   Repeat,
   Maximize2,
   Minimize2,
+  Hand,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useStageStore } from '@/lib/store';
@@ -34,6 +35,8 @@ export interface CanvasToolbarProps {
   readonly onPrevSlide: () => void;
   readonly onNextSlide: () => void;
   readonly onPlayPause: () => void;
+  readonly onRaiseHand?: () => void;
+  readonly isHandRaised?: boolean;
   readonly onWhiteboardClose: () => void;
   readonly showStopDiscussion?: boolean;
   readonly onStopDiscussion?: () => void;
@@ -93,6 +96,8 @@ export function CanvasToolbar({
   onPrevSlide,
   onNextSlide,
   onPlayPause,
+  onRaiseHand,
+  isHandRaised,
   onWhiteboardClose,
   showStopDiscussion,
   onStopDiscussion,
@@ -329,6 +334,34 @@ export function CanvasToolbar({
               )}
             </button>
           ) : null}
+
+          {onRaiseHand && !showStopDiscussion && (
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRaiseHand();
+                    }}
+                    className={cn(
+                      ctrlBtn,
+                      'w-7 h-6',
+                      isHandRaised
+                        ? 'text-amber-600 dark:text-amber-400 bg-amber-500/10'
+                        : 'text-gray-500 dark:text-gray-400',
+                    )}
+                    aria-label="Raise hand"
+                  >
+                    <Hand className="w-3.5 h-3.5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="text-xs">
+                  Raise hand
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
 
           {/* Next scene */}
           {scenesCount > 1 && (

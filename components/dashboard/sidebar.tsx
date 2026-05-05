@@ -2,15 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import {
-  BookOpen,
-  Bot,
-  ChevronRight,
-  LayoutDashboard,
-  Settings,
-  Sparkles,
-  X,
-} from 'lucide-react';
+import { BookOpen, Bot, ChevronRight, LayoutDashboard, Settings, Sparkles, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { listStages } from '@/lib/utils/stage-storage';
@@ -88,7 +80,7 @@ export function DashboardSidebar({
       'group flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-sm font-medium transition-all duration-300',
       active
         ? 'border-blue-400/30 bg-[linear-gradient(90deg,rgba(37,99,235,0.18),rgba(147,51,234,0.14))] text-white shadow-[0_0_28px_rgba(59,130,246,0.14)]'
-        : 'border-transparent bg-white/[0.03] text-slate-400 hover:-translate-y-0.5 hover:border-white/10 hover:bg-white/[0.06] hover:text-white',
+        : 'border-transparent bg-white/[0.03] text-slate-300 hover:-translate-y-0.5 hover:border-white/10 hover:bg-white/[0.06] hover:text-white',
     );
 
   const iconWrap = (active: boolean) =>
@@ -96,7 +88,7 @@ export function DashboardSidebar({
       'flex size-10 shrink-0 items-center justify-center rounded-xl border transition-all duration-300',
       active
         ? 'border-blue-400/35 bg-blue-500/15 text-blue-300'
-        : 'border-white/[0.08] bg-white/[0.04] text-slate-500 group-hover:border-blue-400/20 group-hover:bg-blue-500/10 group-hover:text-blue-300',
+        : 'border-white/[0.08] bg-white/[0.04] text-slate-400 group-hover:border-blue-400/20 group-hover:bg-blue-500/10 group-hover:text-blue-300',
     );
 
   return (
@@ -124,9 +116,7 @@ export function DashboardSidebar({
                 <Sparkles className="size-5 text-blue-300" />
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-[0.32em] text-blue-300/50">
-                  OpenMAIC
-                </p>
+                <p className="text-[10px] uppercase tracking-[0.32em] text-blue-200">OpenMAIC</p>
                 <h2 className="mt-0.5 text-[15px] font-semibold text-white">AI Dashboard</h2>
               </div>
             </Link>
@@ -141,7 +131,7 @@ export function DashboardSidebar({
           </div>
 
           {/* ── Nav label ── */}
-          <p className="mb-3 px-1 text-[10px] font-semibold uppercase tracking-[0.32em] text-slate-700">
+          <p className="mb-3 px-1 text-[10px] font-semibold uppercase tracking-[0.32em] text-slate-400">
             Menu
           </p>
 
@@ -162,7 +152,7 @@ export function DashboardSidebar({
                   </span>
                   <div className="min-w-0 flex-1">
                     <span className="block leading-none">{item.label}</span>
-                    <span className="mt-0.5 block text-[10px] leading-none text-slate-600 transition-colors group-hover:text-slate-500">
+                    <span className="mt-0.5 block text-[10px] leading-none text-slate-400 transition-colors group-hover:text-slate-300">
                       {item.sub}
                     </span>
                   </div>
@@ -189,14 +179,14 @@ export function DashboardSidebar({
                   </span>
                   <div className="min-w-0 flex-1 text-left">
                     <span className="block leading-none">{item.label}</span>
-                    <span className="mt-0.5 block text-[10px] leading-none text-slate-600 transition-colors group-hover:text-slate-500">
+                    <span className="mt-0.5 block text-[10px] leading-none text-slate-400 transition-colors group-hover:text-slate-300">
                       {item.sub}
                     </span>
                   </div>
                   {item.active ? (
                     <ChevronRight className="size-3.5 shrink-0 text-blue-400/50" />
                   ) : (
-                    <ChevronRight className="size-3.5 shrink-0 text-slate-700 transition-colors group-hover:text-slate-500" />
+                    <ChevronRight className="size-3.5 shrink-0 text-slate-500 transition-colors group-hover:text-slate-300" />
                   )}
                 </button>
               );
@@ -207,18 +197,18 @@ export function DashboardSidebar({
           <div className="mt-auto space-y-3">
             {/* Subtle version badge */}
             <div className="flex items-center justify-center">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.06] bg-white/[0.02] px-3 py-1 text-[10px] text-slate-700">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.06] bg-white/[0.02] px-3 py-1 text-[10px] text-slate-400">
                 <span className="size-1.5 rounded-full bg-emerald-500/70" />
                 Workspace active
               </span>
             </div>
 
             <div className="rounded-[24px] border border-white/[0.08] bg-[linear-gradient(160deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-              <p className="text-[10px] uppercase tracking-[0.28em] text-slate-600">About</p>
+              <p className="text-[10px] uppercase tracking-[0.28em] text-slate-400">About</p>
               <p className="mt-2.5 text-[13px] font-medium leading-snug text-slate-300">
                 Immersive AI classroom generation
               </p>
-              <p className="mt-2 text-[12px] leading-5 text-slate-600">
+              <p className="mt-2 text-[12px] leading-5 text-slate-400">
                 Build lessons, review scenes, and launch interactive teaching flows from one place.
               </p>
             </div>

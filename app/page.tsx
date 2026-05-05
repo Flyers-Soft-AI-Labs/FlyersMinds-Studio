@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'motion/react';
 import {
@@ -302,7 +302,7 @@ function HomePage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <div className="mb-2 flex items-center gap-2">
-            <p className="text-[10px] uppercase tracking-[0.32em] text-slate-600">Workspace</p>
+            <p className="text-[10px] uppercase tracking-[0.32em] text-slate-400">Workspace</p>
             {/* AI model status indicator */}
             {currentModelId ? (
               <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/20 bg-emerald-500/[0.08] px-2 py-0.5 text-[10px] text-emerald-400/80">
@@ -327,7 +327,7 @@ function HomePage() {
             {nickname ? `${nickname}'s classrooms` : 'Your classrooms'}
           </h1>
           {classrooms.length > 0 && (
-            <p className="mt-1 text-sm text-slate-600">
+            <p className="mt-1 text-sm text-slate-300">
               {classrooms.length} {classrooms.length === 1 ? 'classroom' : 'classrooms'} ·
               AI-powered interactive lessons
             </p>
@@ -351,7 +351,7 @@ function HomePage() {
           <button
             type="button"
             onClick={() => setSettingsOpen(true)}
-            className="flex size-10 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04] text-slate-500 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-400/25 hover:bg-blue-500/10 hover:text-white"
+            className="flex size-10 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04] text-slate-400 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-400/25 hover:bg-blue-500/10 hover:text-white"
           >
             <Settings className="size-4" />
           </button>
@@ -372,7 +372,7 @@ function HomePage() {
                 <Plus className="size-3" />
                 New classroom
               </div>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-700">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400">
                 {nickname || t('profile.defaultNickname')}
               </span>
             </div>
@@ -384,7 +384,7 @@ function HomePage() {
               onChange={(e) => updateForm('requirement', e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder={t('upload.requirementPlaceholder')}
-              className="min-h-[140px] w-full flex-1 resize-none bg-transparent text-sm leading-7 text-slate-100 outline-none placeholder:text-slate-700"
+              className="min-h-[140px] w-full flex-1 resize-none bg-transparent text-sm leading-7 text-slate-100 outline-none placeholder:text-slate-400"
             />
 
             {/* Controls */}
@@ -404,16 +404,16 @@ function HomePage() {
               <div className="flex flex-wrap items-center justify-between gap-2">
                 {/* Status pills */}
                 <div className="flex items-center gap-1.5">
-                  <span className="inline-flex items-center gap-1 rounded-full border border-white/[0.06] bg-white/[0.02] px-2 py-1 text-[10px] text-slate-700">
-                    <FileText className="size-2.5 text-blue-400/50" />
+                  <span className="inline-flex items-center gap-1 rounded-full border border-white/[0.06] bg-white/[0.02] px-2 py-1 text-[10px] text-slate-300">
+                    <FileText className="size-2.5 text-blue-300" />
                     {form.pdfFiles.length === 0
                       ? 'No PDF'
                       : form.pdfFiles.length === 1
                         ? form.pdfFiles[0].name
                         : `${form.pdfFiles.length} PDFs`}
                   </span>
-                  <span className="inline-flex items-center gap-1 rounded-full border border-white/[0.06] bg-white/[0.02] px-2 py-1 text-[10px] text-slate-700">
-                    <Search className="size-2.5 text-purple-400/50" />
+                  <span className="inline-flex items-center gap-1 rounded-full border border-white/[0.06] bg-white/[0.02] px-2 py-1 text-[10px] text-slate-300">
+                    <Search className="size-2.5 text-purple-300" />
                     {form.webSearch ? 'Web on' : 'Web off'}
                   </span>
                 </div>
@@ -438,7 +438,7 @@ function HomePage() {
                       'h-9 rounded-xl border px-4 text-sm font-semibold transition-all duration-300',
                       canGenerate
                         ? 'border-blue-400/40 bg-[linear-gradient(135deg,#2563eb,#7c3aed)] text-white shadow-[0_6px_20px_rgba(59,130,246,0.30)] hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(59,130,246,0.42)]'
-                        : 'border-white/[0.06] bg-white/[0.03] text-slate-700',
+                        : 'border-white/[0.06] bg-white/[0.03] text-slate-400',
                     )}
                   >
                     Generate
@@ -495,16 +495,12 @@ function HomePage() {
               transition={{ delay: 0.1 + i * 0.08 }}
               className="flex aspect-[4/3] flex-col items-center justify-center gap-4 rounded-[30px] border border-dashed border-white/[0.07] bg-white/[0.01]"
             >
-              <div className="flex size-12 items-center justify-center rounded-2xl border border-white/[0.07] bg-white/[0.02] text-slate-800">
+              <div className="flex size-12 items-center justify-center rounded-2xl border border-white/[0.07] bg-white/[0.02] text-slate-400">
                 <BookOpen className="size-5" />
               </div>
               <div className="text-center">
-                <p className="text-[12px] font-medium text-slate-700">
-                  Classroom {i + 2}
-                </p>
-                <p className="mt-1 text-[11px] text-slate-800">
-                  Generate a lesson above to fill
-                </p>
+                <p className="text-[12px] font-medium text-slate-300">Classroom {i + 2}</p>
+                <p className="mt-1 text-[11px] text-slate-400">Generate a lesson above to fill</p>
               </div>
             </motion.div>
           ))}
@@ -526,7 +522,7 @@ function HomePage() {
               </div>
               <div className="max-w-xs">
                 <p className="text-sm font-semibold text-white">Ready to build a lesson?</p>
-                <p className="mt-2 text-[13px] leading-6 text-slate-500">
+                <p className="mt-2 text-[13px] leading-6 text-slate-300">
                   Describe any topic in the card above and press{' '}
                   <kbd className="rounded border border-white/10 bg-white/[0.06] px-1.5 py-0.5 font-mono text-[11px] text-slate-400">
                     ⌘ Enter
@@ -673,7 +669,7 @@ function ClassroomCard({
           {/* Open indicator on hover */}
           {!confirmingDelete && (
             <div className="absolute bottom-3 left-3 opacity-0 transition-all duration-300 group-hover:opacity-100">
-              <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-black/50 px-2.5 py-1 text-[10px] font-medium text-white/70 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-black/50 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-sm">
                 Open classroom →
               </span>
             </div>
@@ -720,7 +716,7 @@ function ClassroomCard({
               <span className="rounded-full border border-blue-400/20 bg-blue-500/[0.08] px-2 py-0.5 text-[10px] font-medium text-blue-300/80">
                 {classroom.sceneCount} {t('classroom.slides')}
               </span>
-              <span className="rounded-full border border-white/[0.07] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-slate-600">
+              <span className="rounded-full border border-white/[0.07] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-slate-300">
                 {formatDate(classroom.updatedAt)}
               </span>
             </div>
@@ -738,7 +734,7 @@ function ClassroomCard({
                   onBlur={commitRename}
                   maxLength={100}
                   placeholder={t('classroom.renamePlaceholder')}
-                  className="w-full border-b border-blue-400/40 bg-transparent pb-1 text-sm font-semibold text-white outline-none placeholder:text-slate-600"
+                  className="w-full border-b border-blue-400/40 bg-transparent pb-1 text-sm font-semibold text-white outline-none placeholder:text-slate-400"
                 />
               </div>
             ) : (
@@ -754,7 +750,7 @@ function ClassroomCard({
           {!editing && (
             <button
               type="button"
-              className="shrink-0 rounded-xl border border-white/[0.07] bg-white/[0.03] p-1.5 text-slate-600 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-400/20 hover:bg-blue-500/10 hover:text-white"
+              className="shrink-0 rounded-xl border border-white/[0.07] bg-white/[0.03] p-1.5 text-slate-400 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-400/20 hover:bg-blue-500/10 hover:text-white"
               onClick={(e) => {
                 e.stopPropagation();
                 navigator.clipboard.writeText(classroom.name);
