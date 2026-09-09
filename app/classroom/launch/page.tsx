@@ -60,7 +60,8 @@ function FlyersMindsLaunchContent() {
         const data = (await res.json()) as JobPollResponse;
 
         if (!res.ok || data.success === false) {
-          if (!cancelled) setState({ phase: 'error', message: data.error || 'Classroom generation failed.' });
+          if (!cancelled)
+            setState({ phase: 'error', message: data.error || 'Classroom generation failed.' });
           return;
         }
         if (data.done) {
@@ -146,7 +147,9 @@ function FlyersMindsLaunchContent() {
             <div className="mx-auto flex size-14 items-center justify-center rounded-2xl border border-red-400/25 bg-red-500/10 text-red-300">
               <AlertTriangle className="size-6" />
             </div>
-            <h1 className="mt-5 text-lg font-semibold text-white">Couldn&apos;t open this lesson</h1>
+            <h1 className="mt-5 text-lg font-semibold text-white">
+              Couldn&apos;t open this lesson
+            </h1>
             <p className="mt-2 text-sm leading-6 text-slate-400">{state.message}</p>
           </>
         ) : (

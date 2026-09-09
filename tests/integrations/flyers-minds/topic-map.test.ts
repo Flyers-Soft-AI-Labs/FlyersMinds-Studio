@@ -90,7 +90,9 @@ describe('hashDayContent', () => {
     expect(hashDayContent(original)).not.toBe(
       hashDayContent(makeDay({ tasks: [{ id: 't1', label: 'A different task label' }] })),
     );
-    expect(hashDayContent(original)).not.toBe(hashDayContent(makeDay({ topic: 'Different topic' })));
+    expect(hashDayContent(original)).not.toBe(
+      hashDayContent(makeDay({ topic: 'Different topic' })),
+    );
   });
 
   it('changes when a section heading changes, independently of its intro or points', () => {

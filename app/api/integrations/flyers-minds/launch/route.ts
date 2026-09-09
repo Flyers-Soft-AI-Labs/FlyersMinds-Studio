@@ -100,7 +100,15 @@ export async function POST(req: NextRequest) {
     const pollUrl = `${baseUrl}/api/generate-classroom/${jobId}`;
 
     after(() =>
-      runAndRecordMapping(jobId, input, baseUrl, courseSlug as string, dayNumber, fmDay.topic, contentHash),
+      runAndRecordMapping(
+        jobId,
+        input,
+        baseUrl,
+        courseSlug as string,
+        dayNumber,
+        fmDay.topic,
+        contentHash,
+      ),
     );
 
     return apiSuccess(
@@ -115,7 +123,10 @@ export async function POST(req: NextRequest) {
       202,
     );
   } catch (error) {
-    log.error(`Launch failed [courseSlug=${courseSlug ?? 'unknown'}, day=${day ?? 'unknown'}]:`, error);
+    log.error(
+      `Launch failed [courseSlug=${courseSlug ?? 'unknown'}, day=${day ?? 'unknown'}]:`,
+      error,
+    );
     return apiError(
       'UPSTREAM_ERROR',
       502,
