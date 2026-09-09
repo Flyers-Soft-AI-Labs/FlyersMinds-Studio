@@ -173,9 +173,8 @@ describe('POST /api/integrations/flyers-minds/launch', () => {
 
   it('regenerates when the mapped classroom itself is missing, even if the hash still matches', async () => {
     const { getDay } = await import('@/lib/integrations/flyers-minds/client');
-    const { readTopicMapping, hashDayContent } = await import(
-      '@/lib/integrations/flyers-minds/topic-map'
-    );
+    const { readTopicMapping, hashDayContent } =
+      await import('@/lib/integrations/flyers-minds/topic-map');
     const { readClassroom } = await import('@/lib/server/classroom-storage');
     const { createClassroomGenerationJob } = await import('@/lib/server/classroom-job-store');
 
@@ -202,9 +201,8 @@ describe('POST /api/integrations/flyers-minds/launch', () => {
 
   it('saves the classroom mapping keyed to the requested day once generation succeeds', async () => {
     const { getDay } = await import('@/lib/integrations/flyers-minds/client');
-    const { readTopicMapping, writeTopicMapping } = await import(
-      '@/lib/integrations/flyers-minds/topic-map'
-    );
+    const { readTopicMapping, writeTopicMapping } =
+      await import('@/lib/integrations/flyers-minds/topic-map');
     const { readClassroomGenerationJob } = await import('@/lib/server/classroom-job-store');
 
     vi.mocked(getDay).mockResolvedValue(makeDay({ day: 9, topic: 'Sets & Dictionaries' }));
@@ -212,7 +210,10 @@ describe('POST /api/integrations/flyers-minds/launch', () => {
     vi.mocked(readClassroomGenerationJob).mockResolvedValue({
       id: 'job-1',
       status: 'succeeded',
-      result: { classroomId: 'classroom-new', url: 'http://localhost:3000/classroom/classroom-new' },
+      result: {
+        classroomId: 'classroom-new',
+        url: 'http://localhost:3000/classroom/classroom-new',
+      },
     } as never);
 
     const { POST } = await import('@/app/api/integrations/flyers-minds/launch/route');
@@ -239,7 +240,9 @@ describe('POST /api/integrations/flyers-minds/launch', () => {
     await POST(makeRequest({ day: 7, courseSlug: 'aiml' }));
     await POST(makeRequest({ day: 8, courseSlug: 'aiml' }));
 
-    const calledKeys = vi.mocked(readTopicMapping).mock.calls.map(([slug, day]) => `${slug}:${day}`);
+    const calledKeys = vi
+      .mocked(readTopicMapping)
+      .mock.calls.map(([slug, day]) => `${slug}:${day}`);
     expect(new Set(calledKeys).size).toBe(calledKeys.length);
     expect(calledKeys).toContain('aiml:7');
     expect(calledKeys).toContain('aiml:8');
