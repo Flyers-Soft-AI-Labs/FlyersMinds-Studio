@@ -116,7 +116,7 @@ export function DashboardSidebar({
                 <Sparkles className="size-5 text-blue-300" />
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-[0.32em] text-blue-200">OpenMAIC</p>
+                <p className="text-[10px] uppercase tracking-[0.32em] text-blue-300/50">OpenMAIC</p>
                 <h2 className="mt-0.5 text-[15px] font-semibold text-white">AI Dashboard</h2>
               </div>
             </Link>

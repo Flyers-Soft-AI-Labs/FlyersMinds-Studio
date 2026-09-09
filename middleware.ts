@@ -49,8 +49,13 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // Whitelist: access-code endpoints, health check
-  if (pathname.startsWith('/api/access-code/') || pathname === '/api/health') {
+  // Whitelist: access-code endpoints, health check, and the Flyers Minds SSO entry
+  // point (it verifies its own JWT and mints the session cookie itself).
+  if (
+    pathname.startsWith('/api/access-code/') ||
+    pathname === '/api/health' ||
+    pathname === '/studio/entry'
+  ) {
     return NextResponse.next();
   }
 
