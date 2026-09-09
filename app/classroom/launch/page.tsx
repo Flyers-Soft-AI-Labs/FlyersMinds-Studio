@@ -52,12 +52,6 @@ function FlyersMindsLaunchContent() {
     if (startedRef.current) return;
     startedRef.current = true;
 
-    const day = Number(dayParam);
-    if (!dayParam || !Number.isInteger(day) || day <= 0) {
-      setState({ phase: 'error', message: 'This link is missing a valid "day" number.' });
-      return;
-    }
-
     let cancelled = false;
 
     const pollJob = async (pollUrl: string, pollIntervalMs: number) => {
@@ -89,6 +83,14 @@ function FlyersMindsLaunchContent() {
     };
 
     const start = async () => {
+      const day = Number(dayParam);
+      if (!dayParam || !Number.isInteger(day) || day <= 0) {
+        if (!cancelled) {
+          setState({ phase: 'error', message: 'This link is missing a valid "day" number.' });
+        }
+        return;
+      }
+
       try {
         const res = await fetch('/api/integrations/flyers-minds/launch', {
           method: 'POST',

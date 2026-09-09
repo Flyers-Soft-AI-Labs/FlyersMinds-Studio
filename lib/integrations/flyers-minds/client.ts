@@ -124,7 +124,10 @@ export async function getAdminToken(): Promise<string> {
   return data.token;
 }
 
-/** GET /api/pg-curriculum/days/{dayNumber}?course_slug=... — one day/topic. */
+/** GET /api/pg-curriculum/days/{dayNumber}?course_slug=... — one day, including its
+ *  ordered content sections, tasks, hands-on items, etc. (see types.ts). This is the
+ *  full curriculum item OpenMAIC generates a classroom from — nothing about it is
+ *  reordered or dropped on the way in. */
 export async function getDay(dayNumber: number, courseSlug: string): Promise<FlyersMindsDay> {
   return flyersMindsFetch<FlyersMindsDay>(
     `/pg-curriculum/days/${dayNumber}?course_slug=${encodeURIComponent(courseSlug)}`,
@@ -132,8 +135,10 @@ export async function getDay(dayNumber: number, courseSlug: string): Promise<Fly
 }
 
 /** GET /api/pg-curriculum/published?course_slug=... — the full curriculum for a course.
- *  Only used where the full day list is actually needed (e.g. pre-warming) — fetching
- *  a single topic should use getDay() instead to avoid downloading the whole curriculum. */
+ *  `days` is returned pre-ordered ascending by day_number (verified: the real query
+ *  is `... ORDER BY day_number`) — pass it through as-is, never re-sort it. Only used
+ *  where the full day list is actually needed (e.g. pre-warming) — fetching a single
+ *  day should use getDay() instead to avoid downloading the whole curriculum. */
 export async function getPublishedCurriculum(
   courseSlug: string,
 ): Promise<FlyersMindsPublishedCurriculum> {
