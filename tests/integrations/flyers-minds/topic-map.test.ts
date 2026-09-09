@@ -30,7 +30,10 @@ function makeDay(overrides: Partial<FlyersMindsDay> = {}): FlyersMindsDay {
     expectedOutputs: null,
     evaluationChecklist: ['Can index a list', 'Can explain tuple immutability'],
     gitTask: null,
-    resourceLinks: [{ title: 'Lists docs', url: 'https://example.com/lists' }],
+    resourceLinks: [
+      { title: 'Lists docs', url: 'https://example.com/lists' },
+      { title: 'Tuples docs', url: 'https://example.com/tuples' },
+    ],
     tasks: [
       { id: 't1', label: 'Complete list exercises' },
       { id: 't2', label: 'Complete tuple exercises' },
@@ -88,6 +91,60 @@ describe('hashDayContent', () => {
       hashDayContent(makeDay({ tasks: [{ id: 't1', label: 'A different task label' }] })),
     );
     expect(hashDayContent(original)).not.toBe(hashDayContent(makeDay({ topic: 'Different topic' })));
+  });
+
+  it('changes when a section heading changes, independently of its intro or points', () => {
+    const original = makeDay({
+      content: [{ heading: 'Lists', intro: 'An intro.', points: [] }],
+    });
+    const editedHeading = makeDay({
+      content: [{ heading: 'Lists (renamed)', intro: 'An intro.', points: [] }],
+    });
+    expect(hashDayContent(original)).not.toBe(hashDayContent(editedHeading));
+  });
+
+  it('changes when a section intro changes, independently of its heading or points', () => {
+    const original = makeDay({
+      content: [{ heading: 'Lists', intro: 'An intro.', points: [] }],
+    });
+    const editedIntro = makeDay({
+      content: [{ heading: 'Lists', intro: 'A different intro.', points: [] }],
+    });
+    expect(hashDayContent(original)).not.toBe(hashDayContent(editedIntro));
+  });
+
+  it('changes when a resource title or URL changes', () => {
+    const original = makeDay();
+    const editedTitle = makeDay({
+      resourceLinks: [
+        { title: 'Lists docs (updated)', url: 'https://example.com/lists' },
+        original.resourceLinks[1],
+      ],
+    });
+    const editedUrl = makeDay({
+      resourceLinks: [
+        { title: 'Lists docs', url: 'https://example.com/lists-v2' },
+        original.resourceLinks[1],
+      ],
+    });
+
+    expect(hashDayContent(original)).not.toBe(hashDayContent(editedTitle));
+    expect(hashDayContent(original)).not.toBe(hashDayContent(editedUrl));
+  });
+
+  it('changes when the order of resource links changes', () => {
+    const original = makeDay();
+    const reordered = makeDay({ resourceLinks: [...original.resourceLinks].reverse() });
+    expect(hashDayContent(original)).not.toBe(hashDayContent(reordered));
+  });
+
+  it('changes when the evaluation checklist content or order changes', () => {
+    const original = makeDay();
+    const editedContent = makeDay({ evaluationChecklist: ['Can index a list', 'A new criterion'] });
+    const reordered = makeDay({ evaluationChecklist: [...original.evaluationChecklist].reverse() });
+
+    expect(hashDayContent(original)).not.toBe(hashDayContent(editedContent));
+    expect(hashDayContent(original)).not.toBe(hashDayContent(reordered));
   });
 
   it('is stable (same input -> same hash, deterministic)', () => {
