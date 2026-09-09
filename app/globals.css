@@ -89,7 +89,7 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: #0f172a;
   --popover-foreground: oklch(0.985 0 0);
-  --primary: #3b82f6;
+  --primary: #ffffff;
   --primary-foreground: oklch(0.205 0 0);
   --secondary: #111827;
   --secondary-foreground: oklch(0.985 0 0);
@@ -100,7 +100,7 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: rgb(148 163 184 / 0.14);
   --input: rgb(148 163 184 / 0.18);
-  --ring: rgb(59 130 246 / 0.5);
+  --ring: rgb(255 255 255 / 0.5);
   --chart-1: oklch(0.809 0.105 251.813);
   --chart-2: oklch(0.623 0.214 259.815);
   --chart-3: oklch(0.546 0.245 262.881);
@@ -108,12 +108,12 @@
   --chart-5: oklch(0.424 0.199 265.638);
   --sidebar: #020617;
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: #3b82f6;
+  --sidebar-primary: #ffffff;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: #111827;
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: rgb(148 163 184 / 0.12);
-  --sidebar-ring: rgb(59 130 246 / 0.5);
+  --sidebar-ring: rgb(255 255 255 / 0.5);
 }
 
 @layer base {
@@ -126,13 +126,13 @@
   body {
     @apply bg-background text-foreground;
     background-image:
-      radial-gradient(circle at top left, rgba(59, 130, 246, 0.14), transparent 28%),
+      radial-gradient(circle at top left, rgba(255, 255, 255, 0.14), transparent 28%),
       radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.12), transparent 30%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 24%);
   }
   ::selection {
-    background: rgb(59 130 246 / 0.35);
-    color: white;
+    background: rgb(255 255 255 / 0.35);
+    color: #0f172a;
   }
 }
 
@@ -141,7 +141,7 @@
     box-shadow:
       0 0 0 1px rgba(148, 163, 184, 0.08),
       0 24px 80px rgba(2, 6, 23, 0.5),
-      0 0 40px rgba(59, 130, 246, 0.08);
+      0 0 40px rgba(255, 255, 255, 0.08);
   }
 
   .dashboard-hover {

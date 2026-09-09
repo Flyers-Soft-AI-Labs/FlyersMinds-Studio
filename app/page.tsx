@@ -75,6 +75,7 @@ function HomePage() {
   const [classrooms, setClassrooms] = useState<StageListItem[]>([]);
   const [thumbnails, setThumbnails] = useState<Record<string, Slide>>({});
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const { cachedValue: cachedRequirement, updateCache: updateRequirementCache } =
@@ -288,6 +289,10 @@ function HomePage() {
     }
   };
 
+  const filteredClassrooms = classrooms.filter((classroom) =>
+    classroom.name.toLowerCase().includes(searchQuery.trim().toLowerCase()),
+  );
+
   return (
     <div className="space-y-6">
       <input
@@ -323,11 +328,11 @@ function HomePage() {
               </button>
             )}
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
             {nickname ? `${nickname}'s classrooms` : 'Your classrooms'}
           </h1>
           {classrooms.length > 0 && (
-            <p className="mt-1 text-sm text-slate-300">
+            <p className="mt-1 text-sm text-slate-500">
               {classrooms.length} {classrooms.length === 1 ? 'classroom' : 'classrooms'} ·
               AI-powered interactive lessons
             </p>
@@ -336,14 +341,14 @@ function HomePage() {
 
         {/* Header actions */}
         <div className="flex flex-wrap items-center gap-2.5">
-          <div className="rounded-[20px] border border-white/[0.08] bg-white/[0.03] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+          <div className="rounded-[20px] border border-white/10 bg-[#0b1220] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
             <AgentBar />
           </div>
           <button
             type="button"
             onClick={triggerFileSelect}
             disabled={importing}
-            className="inline-flex items-center gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-sm text-slate-400 transition-all duration-300 hover:-translate-y-0.5 hover:border-purple-400/25 hover:bg-purple-500/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-500 transition-all duration-300 hover:-translate-y-0.5 hover:border-purple-400/40 hover:bg-purple-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Upload className="size-4" />
             {importing ? 'Importing…' : t('import.classroom')}
@@ -351,24 +356,46 @@ function HomePage() {
           <button
             type="button"
             onClick={() => setSettingsOpen(true)}
-            className="flex size-10 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04] text-slate-400 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-400/25 hover:bg-blue-500/10 hover:text-white"
+            className="flex size-10 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-slate-500 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900"
           >
             <Settings className="size-4" />
           </button>
         </div>
       </div>
 
+      {/* ── Search ── */}
+      <div className="relative">
+        <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search your classrooms…"
+          className="h-11 w-full rounded-2xl border border-slate-200 bg-slate-50 pl-11 pr-9 text-sm text-slate-900 outline-none transition-all duration-300 placeholder:text-slate-400 focus:border-slate-400 focus:bg-white"
+        />
+        {searchQuery && (
+          <button
+            type="button"
+            onClick={() => setSearchQuery('')}
+            className="absolute right-3 top-1/2 flex size-6 -translate-y-1/2 items-center justify-center rounded-full text-slate-400 hover:text-slate-900"
+            aria-label="Clear search"
+          >
+            ×
+          </button>
+        )}
+      </div>
+
       {/* ── Bento grid ── */}
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {/* ── New classroom card (primary action) ── */}
-        <DashboardCard className="relative overflow-hidden p-5 before:!bg-[radial-gradient(circle_at_top_left,rgba(37,99,235,0.30),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(147,51,234,0.22),transparent_50%)]">
+        <DashboardCard className="relative overflow-hidden p-5 before:!bg-[radial-gradient(circle_at_top_left,rgba(255, 255, 255,0.30),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(147,51,234,0.22),transparent_50%)]">
           {/* Decorative top accent line */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(59,130,246,0.6),rgba(147,51,234,0.5),transparent)]" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(255, 255, 255,0.6),rgba(147,51,234,0.5),transparent)]" />
 
           <div className="relative z-10 flex h-full flex-col gap-4">
             {/* Card header row */}
             <div className="flex items-center justify-between">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/[0.12] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-300">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/[0.10] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-white">
                 <Plus className="size-3" />
                 New classroom
               </div>
@@ -405,7 +432,7 @@ function HomePage() {
                 {/* Status pills */}
                 <div className="flex items-center gap-1.5">
                   <span className="inline-flex items-center gap-1 rounded-full border border-white/[0.06] bg-white/[0.02] px-2 py-1 text-[10px] text-slate-300">
-                    <FileText className="size-2.5 text-blue-300" />
+                    <FileText className="size-2.5 text-white" />
                     {form.pdfFiles.length === 0
                       ? 'No PDF'
                       : form.pdfFiles.length === 1
@@ -437,7 +464,7 @@ function HomePage() {
                     className={cn(
                       'h-9 rounded-xl border px-4 text-sm font-semibold transition-all duration-300',
                       canGenerate
-                        ? 'border-blue-400/40 bg-[linear-gradient(135deg,#2563eb,#7c3aed)] text-white shadow-[0_6px_20px_rgba(59,130,246,0.30)] hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(59,130,246,0.42)]'
+                        ? 'border-white/25 bg-white text-slate-900 shadow-[0_6px_20px_rgba(255,255,255,0.30)] hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-[0_10px_30px_rgba(255,255,255,0.42)]'
                         : 'border-white/[0.06] bg-white/[0.03] text-slate-400',
                     )}
                   >
@@ -464,7 +491,7 @@ function HomePage() {
         </DashboardCard>
 
         {/* ── Existing classroom cards ── */}
-        {classrooms.map((classroom, index) => (
+        {filteredClassrooms.map((classroom, index) => (
           <motion.div
             key={classroom.id}
             initial={{ opacity: 0, y: 12 }}
@@ -485,21 +512,39 @@ function HomePage() {
           </motion.div>
         ))}
 
+        {/* ── No search results ── */}
+        {classrooms.length > 0 && filteredClassrooms.length === 0 && (
+          <div className="col-span-full flex flex-col items-center justify-center gap-3 rounded-[30px] border border-dashed border-slate-300 bg-slate-50 py-12 text-center">
+            <Search className="size-6 text-slate-400" />
+            <p className="text-sm font-medium text-slate-600">
+              No classrooms match &quot;{searchQuery}&quot;
+            </p>
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="text-xs text-slate-900 underline hover:text-slate-600"
+            >
+              Clear search
+            </button>
+          </div>
+        )}
+
         {/* ── Ghost placeholders (no classrooms yet) ── */}
         {classrooms.length === 0 &&
+          !searchQuery &&
           [0, 1].map((i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.1 + i * 0.08 }}
-              className="flex aspect-[4/3] flex-col items-center justify-center gap-4 rounded-[30px] border border-dashed border-white/[0.07] bg-white/[0.01]"
+              className="flex aspect-[4/3] flex-col items-center justify-center gap-4 rounded-[30px] border border-dashed border-slate-300 bg-slate-50"
             >
-              <div className="flex size-12 items-center justify-center rounded-2xl border border-white/[0.07] bg-white/[0.02] text-slate-400">
+              <div className="flex size-12 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-400">
                 <BookOpen className="size-5" />
               </div>
               <div className="text-center">
-                <p className="text-[12px] font-medium text-slate-300">Classroom {i + 2}</p>
+                <p className="text-[12px] font-medium text-slate-600">Classroom {i + 2}</p>
                 <p className="mt-1 text-[11px] text-slate-400">Generate a lesson above to fill</p>
               </div>
             </motion.div>
@@ -514,10 +559,10 @@ function HomePage() {
         <DashboardCard className="overflow-hidden p-0">
           <div className="flex h-full flex-col">
             {/* Top gradient band */}
-            <div className="h-1 bg-[linear-gradient(90deg,#2563eb,#7c3aed,#0891b2)]" />
+            <div className="h-1 bg-[linear-gradient(90deg,#ffffff,#7c3aed,#0891b2)]" />
 
             <div className="flex flex-1 flex-col items-center justify-center gap-5 p-6 text-center">
-              <div className="flex size-12 items-center justify-center rounded-2xl border border-blue-400/20 bg-[linear-gradient(180deg,rgba(59,130,246,0.16),rgba(59,130,246,0.06))] text-blue-300 shadow-[0_0_24px_rgba(59,130,246,0.12)]">
+              <div className="flex size-12 items-center justify-center rounded-2xl border border-white/25 bg-[linear-gradient(180deg,rgba(255, 255, 255,0.16),rgba(255, 255, 255,0.06))] text-white shadow-[0_0_24px_rgba(255, 255, 255,0.12)]">
                 <Zap className="size-5" />
               </div>
               <div className="max-w-xs">
@@ -713,7 +758,7 @@ function ClassroomCard({
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
             <div className="mb-2 flex flex-wrap items-center gap-1.5">
-              <span className="rounded-full border border-blue-400/20 bg-blue-500/[0.08] px-2 py-0.5 text-[10px] font-medium text-blue-300/80">
+              <span className="rounded-full border border-white/25 bg-white/[0.10] px-2 py-0.5 text-[10px] font-medium text-white/70">
                 {classroom.sceneCount} {t('classroom.slides')}
               </span>
               <span className="rounded-full border border-white/[0.07] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-slate-300">
@@ -734,7 +779,7 @@ function ClassroomCard({
                   onBlur={commitRename}
                   maxLength={100}
                   placeholder={t('classroom.renamePlaceholder')}
-                  className="w-full border-b border-blue-400/40 bg-transparent pb-1 text-sm font-semibold text-white outline-none placeholder:text-slate-400"
+                  className="w-full border-b border-white/25 bg-transparent pb-1 text-sm font-semibold text-white outline-none placeholder:text-slate-400"
                 />
               </div>
             ) : (
@@ -750,7 +795,7 @@ function ClassroomCard({
           {!editing && (
             <button
               type="button"
-              className="shrink-0 rounded-xl border border-white/[0.07] bg-white/[0.03] p-1.5 text-slate-400 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-400/20 hover:bg-blue-500/10 hover:text-white"
+              className="shrink-0 rounded-xl border border-white/[0.07] bg-white/[0.03] p-1.5 text-slate-400 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/10 hover:text-white"
               onClick={(e) => {
                 e.stopPropagation();
                 navigator.clipboard.writeText(classroom.name);
