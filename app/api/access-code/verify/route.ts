@@ -3,7 +3,7 @@ import { createHmac, timingSafeEqual } from 'crypto';
 import { apiError, apiSuccess } from '@/lib/server/api-response';
 
 /** Create an HMAC-signed token: `timestamp.signature` */
-function createAccessToken(accessCode: string): string {
+export function createAccessToken(accessCode: string): string {
   const timestamp = Date.now().toString();
   const signature = createHmac('sha256', accessCode).update(timestamp).digest('hex');
   return `${timestamp}.${signature}`;
