@@ -147,7 +147,7 @@ function AgentVoicePill({
       <div
         onClick={(e) => e.stopPropagation()}
         onPointerDown={(e) => e.stopPropagation()}
-        className="flex items-center gap-1.5 h-6 w-[100px] rounded-full bg-muted/40 px-2.5 text-[11px] text-muted-foreground/30 shrink-0 cursor-not-allowed"
+        className="flex items-center gap-1.5 h-6 w-[100px] rounded-full bg-muted/40 px-2.5 text-[11px] text-muted-foreground/70 shrink-0 cursor-not-allowed"
       >
         <VolumeX className="size-3 shrink-0" />
         <span className="truncate flex-1 text-left">{displayName}</span>
@@ -186,7 +186,7 @@ function AgentVoicePill({
         {availableProviders.map((provider) =>
           provider.modelGroups.map((group) => (
             <div key={`${provider.providerId}::${group.modelId}`}>
-              <div className="text-[11px] text-muted-foreground/60 font-medium px-2 py-1 sticky top-0 bg-popover">
+              <div className="text-[11px] text-muted-foreground font-medium px-2 py-1 sticky top-0 bg-popover">
                 {group.modelId
                   ? `${provider.providerName} · ${group.modelName}`
                   : provider.providerName}
@@ -235,7 +235,7 @@ function AgentVoicePill({
                         'shrink-0 size-6 flex items-center justify-center rounded-sm transition-colors',
                         isPreviewing
                           ? 'text-primary'
-                          : 'text-muted-foreground/40 hover:text-muted-foreground',
+                          : 'text-muted-foreground/70 hover:text-muted-foreground',
                       )}
                     >
                       {isPreviewing ? (
@@ -375,7 +375,7 @@ function TeacherVoicePill({
       <div
         onClick={(e) => e.stopPropagation()}
         onPointerDown={(e) => e.stopPropagation()}
-        className="flex items-center gap-1.5 h-6 w-[100px] rounded-full bg-muted/40 px-2.5 text-[11px] text-muted-foreground/30 shrink-0 cursor-not-allowed"
+        className="flex items-center gap-1.5 h-6 w-[100px] rounded-full bg-muted/40 px-2.5 text-[11px] text-muted-foreground/70 shrink-0 cursor-not-allowed"
       >
         <VolumeX className="size-3 shrink-0" />
         <span className="truncate flex-1 text-left">{displayName}</span>
@@ -414,7 +414,7 @@ function TeacherVoicePill({
         {availableProviders.map((provider) =>
           provider.modelGroups.map((group) => (
             <div key={`${provider.providerId}::${group.modelId}`}>
-              <div className="text-[11px] text-muted-foreground/60 font-medium px-2 py-1 sticky top-0 bg-popover">
+              <div className="text-[11px] text-muted-foreground font-medium px-2 py-1 sticky top-0 bg-popover">
                 {group.modelId
                   ? `${provider.providerName} · ${group.modelName}`
                   : provider.providerName}
@@ -462,7 +462,7 @@ function TeacherVoicePill({
                         'shrink-0 size-6 flex items-center justify-center rounded-sm transition-colors',
                         isPreviewing
                           ? 'text-primary'
-                          : 'text-muted-foreground/40 hover:text-muted-foreground',
+                          : 'text-muted-foreground/70 hover:text-muted-foreground',
                       )}
                     >
                       {isPreviewing ? (
@@ -644,9 +644,9 @@ export function AgentBar() {
       )}
       {showVoice &&
         (ttsEnabled ? (
-          <Volume2 className="size-3.5 text-muted-foreground/40 group-hover:text-muted-foreground/60 transition-colors" />
+          <Volume2 className="size-3.5 text-muted-foreground/70 group-hover:text-muted-foreground transition-colors" />
         ) : (
-          <VolumeX className="size-3.5 text-muted-foreground/30" />
+          <VolumeX className="size-3.5 text-muted-foreground/70" />
         ))}
     </div>
   );
@@ -678,7 +678,7 @@ export function AgentBar() {
         <span className="text-[13px] font-medium truncate min-w-0 flex-1">
           {getAgentName(agent)}
         </span>
-        <span className="text-[10px] text-muted-foreground/50 shrink-0 w-[52px] text-right">
+        <span className="text-[10px] text-muted-foreground shrink-0 w-[52px] text-right">
           {getAgentRole(agent)}
         </span>
         {showVoice && (
@@ -700,18 +700,18 @@ export function AgentBar() {
           <button
             className={cn(
               'group flex items-center gap-2 cursor-pointer rounded-full px-2.5 py-2 transition-all w-full',
-              'border border-border/50 text-muted-foreground/70 hover:text-foreground hover:bg-muted/60',
+              'border border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/60',
             )}
             onClick={() => setOpen(!open)}
           >
-            <span className="text-xs text-muted-foreground/60 group-hover:text-muted-foreground transition-colors hidden sm:block font-medium flex-1 text-left truncate">
+            <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors hidden sm:block font-medium flex-1 text-left truncate">
               {open ? t('agentBar.expandedTitle') : t('agentBar.readyToLearn')}
             </span>
             {avatarRow}
             {open ? (
-              <ChevronUp className="size-3 text-muted-foreground/40 group-hover:text-muted-foreground/70 transition-colors" />
+              <ChevronUp className="size-3 text-muted-foreground/70 group-hover:text-muted-foreground transition-colors" />
             ) : (
-              <ChevronDown className="size-3 text-muted-foreground/40 group-hover:text-muted-foreground/70 transition-colors" />
+              <ChevronDown className="size-3 text-muted-foreground/70 group-hover:text-muted-foreground transition-colors" />
             )}
           </button>
         </TooltipTrigger>
@@ -799,10 +799,10 @@ export function AgentBar() {
                   </div>
                   <div className="flex-1" />
                   <div className="text-center space-y-1">
-                    <p className="text-[11px] text-muted-foreground/60">
+                    <p className="text-[11px] text-muted-foreground">
                       {t('settings.agentModeAutoDesc')}
                     </p>
-                    <p className="text-[10px] text-muted-foreground/40">
+                    <p className="text-[10px] text-muted-foreground/80">
                       {t('agentBar.voiceAutoAssign')}
                     </p>
                   </div>
@@ -811,8 +811,8 @@ export function AgentBar() {
 
               {/* Max turns — compact stepper */}
               <div className="flex items-center gap-1.5 px-2 py-1 mt-1 border-t border-border/30">
-                <MessageSquare className="size-3 text-muted-foreground/40 shrink-0" />
-                <span className="text-[11px] text-muted-foreground/50 flex-1">
+                <MessageSquare className="size-3 text-muted-foreground/70 shrink-0" />
+                <span className="text-[11px] text-muted-foreground flex-1">
                   {t('settings.maxTurns')}
                 </span>
                 <div className="flex items-center rounded-full bg-muted/50 h-5 shrink-0">
@@ -823,7 +823,7 @@ export function AgentBar() {
                       const v = Math.max(1, parseInt(maxTurns || '1') - 1);
                       setMaxTurns(String(v));
                     }}
-                    className="size-5 flex items-center justify-center text-muted-foreground/60 hover:text-foreground transition-colors rounded-full hover:bg-muted"
+                    className="size-5 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-muted"
                   >
                     <Minus className="size-2.5" />
                   </button>
@@ -853,7 +853,7 @@ export function AgentBar() {
                       const v = Math.min(20, parseInt(maxTurns || '1') + 1);
                       setMaxTurns(String(v));
                     }}
-                    className="size-5 flex items-center justify-center text-muted-foreground/60 hover:text-foreground transition-colors rounded-full hover:bg-muted"
+                    className="size-5 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-muted"
                   >
                     <Plus className="size-2.5" />
                   </button>

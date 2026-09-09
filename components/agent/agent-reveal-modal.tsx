@@ -115,7 +115,7 @@ export function AgentRevealModal({ agents, open, onClose, onAllRevealed }: Agent
           {/* Close button */}
           {allRevealed && (
             <motion.button
-              className="absolute right-4 top-4 flex size-9 items-center justify-center rounded-full bg-black/5 text-zinc-500 backdrop-blur-sm transition-colors hover:bg-black/10 hover:text-zinc-700 dark:bg-white/10 dark:text-white/70 dark:hover:bg-white/20 dark:hover:text-white"
+              className="absolute right-4 top-4 flex size-9 items-center justify-center rounded-full bg-black/5 text-zinc-600 backdrop-blur-sm transition-colors hover:bg-black/10 hover:text-zinc-800 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:hover:text-white"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.2 }}

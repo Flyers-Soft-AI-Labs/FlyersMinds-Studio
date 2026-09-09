@@ -12,7 +12,11 @@ import type {
   ImageMapping,
 } from '@/lib/types/generation';
 import { buildPrompt, PROMPT_IDS } from './prompts';
-import { formatImageDescription, formatImagePlaceholder } from './prompt-formatters';
+import {
+  buildSchoolContext,
+  formatImageDescription,
+  formatImagePlaceholder,
+} from './prompt-formatters';
 import { parseJsonResponse } from './json-repair';
 import { uniquifyMediaElementIds } from './scene-builder';
 import type { AICallFn, GenerationResult, GenerationCallbacks } from './pipeline-types';
@@ -99,7 +103,9 @@ export async function generateSceneOutlinesFromRequirements(
     mediaGenerationPolicy,
     researchContext: options?.researchContext || 'None',
     // Server-side generation populates this via options; client-side populates via formatTeacherPersonaForPrompt
-    teacherContext: options?.teacherContext || '',
+    teacherContext: [options?.teacherContext || '', buildSchoolContext(requirements)]
+      .filter(Boolean)
+      .join('\n\n'),
   });
 
   if (!prompts) {

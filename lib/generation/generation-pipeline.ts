@@ -24,6 +24,7 @@ export {
   formatImagePlaceholder,
   buildVisionUserContent,
   buildLanguageText,
+  buildSchoolContext,
 } from './prompt-formatters';
 
 // JSON repair

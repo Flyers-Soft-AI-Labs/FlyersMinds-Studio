@@ -97,7 +97,8 @@ interface CanvasState {
   shapeFormatPainter: ShapeFormatPainter | null; // Shape format painter
 
   // ===== Video playback =====
-  playingVideoElementId: string; // Video element currently playing
+  playingVideoElementId: string; // Video element currently controlled by playback
+  videoPlaybackPaused: boolean; // Whether the controlled video is paused in place
 
   // ===== Whiteboard =====
   whiteboardOpen: boolean; // Whether whiteboard is open
@@ -151,6 +152,8 @@ interface CanvasState {
   // ----- Video playback -----
   playVideo: (elementId: string) => void;
   pauseVideo: () => void;
+  resumeVideo: () => void;
+  stopVideo: () => void;
 
   // ----- Whiteboard -----
   setWhiteboardOpen: (open: boolean) => void;
@@ -223,6 +226,7 @@ const initialState = {
 
   // Video playback
   playingVideoElementId: '',
+  videoPlaybackPaused: false,
 
   // Whiteboard
   whiteboardOpen: false,
@@ -332,9 +336,21 @@ const useCanvasStoreBase = create<CanvasState>((set, get) => ({
 
   // ===== Video Playback Actions =====
 
-  playVideo: (elementId) => set({ playingVideoElementId: elementId }),
+  playVideo: (elementId) => set({ playingVideoElementId: elementId, videoPlaybackPaused: false }),
 
-  pauseVideo: () => set({ playingVideoElementId: '' }),
+  pauseVideo: () => {
+    if (get().playingVideoElementId) {
+      set({ videoPlaybackPaused: true });
+    }
+  },
+
+  resumeVideo: () => {
+    if (get().playingVideoElementId) {
+      set({ videoPlaybackPaused: false });
+    }
+  },
+
+  stopVideo: () => set({ playingVideoElementId: '', videoPlaybackPaused: false }),
 
   // ===== Whiteboard Actions =====
 

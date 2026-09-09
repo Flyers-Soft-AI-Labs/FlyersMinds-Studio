@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { BookOpen, Layers3, Loader2, Sparkles } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { Stage } from '@/components/stage';
 import { DashboardCard } from '@/components/dashboard/dashboard-card';
 import { useStageStore } from '@/lib/store';
@@ -22,8 +22,6 @@ export default function ClassroomDetailPage() {
 
   const { loadFromStorage } = useStageStore();
   const stage = useStageStore((s) => s.stage);
-  const scenes = useStageStore((s) => s.scenes);
-  const outlines = useStageStore((s) => s.outlines);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -153,74 +151,30 @@ export default function ClassroomDetailPage() {
     }
   }, [loading, error, generateRemaining]);
 
-  const summaryCards = useMemo(
-    () => [
-      {
-        label: 'Scenes',
-        value: loading ? '--' : String(scenes.length).padStart(2, '0'),
-        icon: Layers3,
-      },
-      {
-        label: 'Outlines',
-        value: loading ? '--' : String(outlines.length).padStart(2, '0'),
-        icon: BookOpen,
-      },
-      {
-        label: 'Status',
-        value: loading ? 'SYNC' : error ? 'ALERT' : 'LIVE',
-        icon: Sparkles,
-      },
-    ],
-    [error, loading, outlines.length, scenes.length],
-  );
-
   return (
     <MediaStageProvider value={classroomId}>
       <div className="space-y-7">
-        <section className="grid gap-4 lg:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.75fr)]">
-          <DashboardCard className="p-6 sm:p-7">
-            <div className="relative z-10">
-              <p className="text-xs uppercase tracking-[0.28em] text-slate-500">
-                Classroom Workspace
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold text-white">
-                {stage?.name || 'Interactive classroom'}
-              </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
-                Review scenes, manage live playback, and keep the classroom pipeline flowing without
-                leaving the dashboard.
-              </p>
-            </div>
-          </DashboardCard>
-
-          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-            {summaryCards.map((card) => {
-              const Icon = card.icon;
-              return (
-                <DashboardCard key={card.label} className="p-5">
-                  <div className="relative z-10 flex items-center justify-between gap-3">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.22em] text-slate-500">
-                        {card.label}
-                      </p>
-                      <p className="mt-3 text-2xl font-semibold text-white">{card.value}</p>
-                    </div>
-                    <div className="flex size-11 items-center justify-center rounded-2xl border border-blue-400/20 bg-[linear-gradient(180deg,rgba(59,130,246,0.18),rgba(59,130,246,0.08))] text-blue-300 shadow-[0_0_24px_rgba(59,130,246,0.12)]">
-                      <Icon className="size-5" />
-                    </div>
-                  </div>
-                </DashboardCard>
-              );
-            })}
+        <DashboardCard className="p-6 sm:p-7">
+          <div className="relative z-10">
+            <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
+              Classroom Workspace
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">
+              {stage?.name || 'Interactive classroom'}
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300">
+              Review scenes, manage live playback, and keep the classroom pipeline flowing without
+              leaving the dashboard.
+            </p>
           </div>
-        </section>
+        </DashboardCard>
 
         <DashboardCard className="overflow-hidden p-0">
           <div className="flex flex-col h-[calc(100vh-18rem)] min-h-[720px]">
             {loading ? (
               <div className="flex h-full items-center justify-center bg-transparent">
                 <div className="text-center text-slate-300">
-                  <Loader2 className="mx-auto size-8 animate-spin text-blue-300" />
+                  <Loader2 className="mx-auto size-8 animate-spin text-white" />
                   <p className="mt-4 text-sm">Loading classroom...</p>
                 </div>
               </div>

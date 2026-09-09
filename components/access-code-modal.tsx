@@ -142,7 +142,7 @@ export function AccessCodeModal({ open, onSuccess }: AccessCodeModalProps) {
                     className={`
                       w-full rounded-xl border bg-background/60 px-4 py-3 pr-12 text-sm
                       outline-none transition-all duration-200
-                      placeholder:text-muted-foreground/50
+                      placeholder:text-muted-foreground/80
                       focus:border-primary/40 focus:ring-2 focus:ring-primary/10
                       ${error ? 'border-destructive/50 focus:border-destructive/50 focus:ring-destructive/10' : 'border-border/60'}
                     `}
@@ -155,7 +155,7 @@ export function AccessCodeModal({ open, onSuccess }: AccessCodeModalProps) {
                     className={`
                       absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center
                       justify-center rounded-lg transition-all duration-200
-                      ${code && !loading && !success ? 'bg-primary text-primary-foreground hover:opacity-90 cursor-pointer' : 'text-muted-foreground/30 cursor-default'}
+                      ${code && !loading && !success ? 'bg-primary text-primary-foreground hover:opacity-90 cursor-pointer' : 'text-muted-foreground/70 cursor-default'}
                     `}
                   >
                     {loading ? (

@@ -44,9 +44,9 @@ export function ProviderList({
             key={provider.id}
             onClick={() => onSelect(provider.id)}
             className={cn(
-              'w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg transition-all border text-left',
+              'w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg transition-all border text-left text-foreground',
               selectedProviderId === provider.id
-                ? 'bg-primary/5 border-primary/50 shadow-sm'
+                ? 'bg-primary/10 border-primary/50 shadow-sm text-primary'
                 : 'border-transparent hover:bg-muted/50',
             )}
           >
@@ -69,7 +69,7 @@ export function ProviderList({
               {getProviderDisplayName(provider)}
             </span>
             {provider.isServerConfigured && (
-              <span className="text-[10px] px-1 py-0 h-4 leading-4 rounded shrink-0 bg-muted text-muted-foreground">
+              <span className="text-[10px] px-1 py-0 h-4 leading-4 rounded shrink-0 bg-muted text-foreground">
                 {t('settings.serverConfigured')}
               </span>
             )}

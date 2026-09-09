@@ -1003,7 +1003,7 @@ function GenerationPreviewContent() {
                           ? t('generation.generationComplete')
                           : t(activeStep.title)}
                     </h2>
-                    <p className="text-muted-foreground text-base">
+                    <p className="text-muted-foreground text-base font-medium">
                       {error
                         ? error
                         : isComplete
@@ -1091,7 +1091,7 @@ function GenerationPreviewContent() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="flex items-center gap-3 text-sm text-muted-foreground/50 font-medium uppercase tracking-widest"
+                className="flex items-center gap-3 text-sm text-muted-foreground font-medium uppercase tracking-widest"
               >
                 <Sparkles className="size-3 animate-pulse" />
                 {t('generation.aiWorking')}

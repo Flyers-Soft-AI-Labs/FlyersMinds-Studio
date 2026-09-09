@@ -422,10 +422,10 @@ export function ASRSettings({ selectedProviderId }: ASRSettingsProps) {
                               {isActive && <div className="size-2 rounded-full bg-primary" />}
                             </div>
                           </div>
-                          <span className="text-sm font-mono text-foreground/80 truncate pr-3">
+                          <span className="text-sm font-mono text-foreground truncate pr-3">
                             {model.id}
                           </span>
-                          <span className="text-sm text-foreground/60 truncate pr-3">
+                          <span className="text-sm text-foreground/80 truncate pr-3">
                             {model.name}
                           </span>
                           <Button
@@ -450,7 +450,7 @@ export function ASRSettings({ selectedProviderId }: ASRSettingsProps) {
                     })}
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground/50 italic">
+                  <p className="text-sm text-muted-foreground italic">
                     {t('settings.noModelsAdded')}
                   </p>
                 )}

@@ -36,6 +36,8 @@ export function CanvasArea({
   onPrevSlide,
   onNextSlide,
   onPlayPause,
+  onRaiseHand,
+  isHandRaised,
   onWhiteboardClose,
   isPresenting,
   onTogglePresentation,
@@ -247,6 +249,8 @@ export function CanvasArea({
           onPrevSlide={onPrevSlide}
           onNextSlide={onNextSlide}
           onPlayPause={onPlayPause}
+          onRaiseHand={onRaiseHand}
+          isHandRaised={isHandRaised}
           onWhiteboardClose={onWhiteboardClose}
           isPresenting={isPresenting}
           onTogglePresentation={onTogglePresentation}

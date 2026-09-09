@@ -13,6 +13,12 @@ export const dynamic = 'force-dynamic';
  * with the shared STUDIO_JWT_SECRET and redirects the learner here. We verify it
  * and, if it checks out, hand back the same `openmaic_access` cookie the access-code
  * flow issues, so the learner lands in Studio without a second login.
+ *
+ * The token's `day` claim (Flyers Minds' "Open Studio" button sends the learner's
+ * current day number — see frontend/src/pages/Dashboard.js / Navbar.js in the
+ * Flyers Minds repo) identifies which curriculum day to launch a classroom for. When
+ * present, a verified sign-in lands on /classroom/launch for that day instead of the
+ * bare dashboard, so the learner goes straight to the right lesson.
  */
 
 interface StudioClaims {
@@ -89,7 +95,18 @@ export async function GET(request: NextRequest) {
   const claims = verifyStudioToken(token, secret);
   if (!claims) return fail('invalid_token');
 
-  const response = NextResponse.redirect(new URL('/', origin));
+  const destination = new URL(
+    typeof claims.day === 'number' && Number.isInteger(claims.day) && claims.day > 0
+      ? '/classroom/launch'
+      : '/',
+    origin,
+  );
+  if (destination.pathname === '/classroom/launch') {
+    destination.searchParams.set('day', String(claims.day));
+    if (claims.course) destination.searchParams.set('courseSlug', claims.course);
+  }
+
+  const response = NextResponse.redirect(destination);
 
   // When ACCESS_CODE is unset the middleware lets everything through, so there is
   // no session cookie to mint — a verified token just lands on the app.

@@ -120,6 +120,7 @@ export function ProviderConfigPanel({
     }
 
     const testModelId = availableModels[0].id;
+    const providerConfig = providersConfig[provider.id];
 
     try {
       const response = await fetch('/api/verify-model', {
@@ -131,7 +132,7 @@ export function ProviderConfigPanel({
             modelId: testModelId,
             apiKey,
             baseUrl,
-            providerType: provider.type,
+            providerType: providerConfig?.type || provider.type,
             requiresApiKey,
           }),
         ),
@@ -152,8 +153,12 @@ export function ProviderConfigPanel({
     }
   }, [apiKey, baseUrl, provider.id, provider.type, requiresApiKey, providersConfig, t]);
 
-  const models = providersConfig[provider.id]?.models || [];
-  const isServerConfigured = providersConfig[provider.id]?.isServerConfigured;
+  const providerConfig = providersConfig[provider.id];
+  const models = providerConfig?.models || [];
+  const isServerConfigured = providerConfig?.isServerConfigured;
+  const serverBaseUrl = providerConfig?.serverBaseUrl;
+  const effectiveBaseUrl = baseUrl || serverBaseUrl || provider.defaultBaseUrl || '';
+  const isUsingServerBaseUrl = !baseUrl && !!serverBaseUrl;
 
   return (
     <div className="space-y-6 max-w-3xl">
@@ -254,14 +259,19 @@ export function ProviderConfigPanel({
           autoCapitalize="none"
           autoCorrect="off"
           spellCheck={false}
-          placeholder={provider.defaultBaseUrl || 'https://api.example.com/v1'}
+          placeholder={serverBaseUrl || provider.defaultBaseUrl || 'https://api.example.com/v1'}
           value={baseUrl}
           onChange={(e) => handleBaseUrlChange(e.target.value)}
           onBlur={onSave}
           className="h-8"
         />
+        {serverBaseUrl && (
+          <p className="text-xs text-foreground break-all">
+            Server Base URL: {serverBaseUrl}
+            {isUsingServerBaseUrl ? ' (currently used)' : ' (available when the override is empty)'}
+          </p>
+        )}
         {(() => {
-          const effectiveBaseUrl = baseUrl || provider.defaultBaseUrl || '';
           if (!effectiveBaseUrl) return null;
 
           // Generate endpoint path based on provider type
