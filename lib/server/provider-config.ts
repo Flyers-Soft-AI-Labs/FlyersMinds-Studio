@@ -212,7 +212,6 @@ function buildConfig(yamlData: YamlData): ServerConfig {
   return {
     providers: loadEnvSection(LLM_ENV_MAP, yamlData.providers, {
       keylessProviders: new Set(['ollama']),
-      activateWithBaseUrlOrModels: true,
     }),
     tts: loadEnvSection(TTS_ENV_MAP, yamlData.tts),
     asr: loadEnvSection(ASR_ENV_MAP, yamlData.asr),

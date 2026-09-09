@@ -476,20 +476,20 @@ function ensureBuiltInProviders(state: Partial<SettingsState>): void {
 function mergeServerModels(models: ModelInfo[] = [], serverModelIds?: string[]): ModelInfo[] {
   if (!serverModelIds?.length) return models;
 
-  const existingModelIds = new Set(models.map((model) => model.id));
-  const serverModels = serverModelIds
-    .filter((modelId) => !existingModelIds.has(modelId))
-    .map((modelId) => ({
-      id: modelId,
-      name: modelId,
-      capabilities: {
-        streaming: true,
-        tools: true,
-        vision: false,
-      },
-    }));
+  const existingModelsById = new Map(models.map((model) => [model.id, model]));
 
-  return [...serverModels, ...models];
+  return serverModelIds.map(
+    (modelId) =>
+      existingModelsById.get(modelId) ?? {
+        id: modelId,
+        name: modelId,
+        capabilities: {
+          streaming: true,
+          tools: true,
+          vision: false,
+        },
+      },
+  );
 }
 
 /**
