@@ -2,7 +2,7 @@
  * Prompt and context building utilities for the generation pipeline.
  */
 
-import type { PdfImage } from '@/lib/types/generation';
+import type { PdfImage, UserRequirements } from '@/lib/types/generation';
 import type { AgentInfo, SceneGenerationContext } from './pipeline-types';
 
 /** Build a course context string for injection into action prompts */
@@ -147,4 +147,49 @@ export function buildLanguageText(directive?: string, sceneNote?: string): strin
     text += (text ? '\n\n' : '') + `Additional language note for this scene: ${sceneNote}`;
   }
   return text;
+}
+
+/** Build school-grade instructions for middle/high-school classroom generation. */
+export function buildSchoolContext(requirements?: UserRequirements): string {
+  if (!requirements?.gradeLevel && !requirements?.subject && !requirements?.teachingStyle) {
+    return '';
+  }
+
+  const grade = requirements.gradeLevel || 'school student';
+  const styleLabels: Record<string, string> = {
+    simple: 'simple explanation',
+    exam: 'exam preparation',
+    story: 'story-based',
+    'step-by-step': 'step-by-step',
+    practice: 'practice focused',
+  };
+
+  const lines = [
+    '## School Classroom Context',
+    '',
+    `- Grade: ${grade}`,
+    `- Subject: ${requirements.subject || 'General school subject'}`,
+    `- Chapter/topic: ${requirements.chapter || 'Use the requested topic'}`,
+    `- Learning goal: ${requirements.learningGoal || 'Help the student understand and practice the concept'}`,
+    `- Difficulty: ${requirements.difficultyLevel || 'standard'}`,
+    `- Teaching style: ${styleLabels[requirements.teachingStyle || 'simple'] || 'simple explanation'}`,
+    '',
+    'Teach like a friendly school teacher for grades 6-12. Use age-appropriate words, concrete examples, quick checks for understanding, and short recap moments. Keep the AI assistant separate from the teacher and reserve doubt-solving language for assistant/QA moments.',
+  ];
+
+  if (requirements.gradeLevel && /Grade\s*[6-8]/i.test(requirements.gradeLevel)) {
+    lines.push(
+      'For this grade band, prefer simple words, stories, everyday examples, and avoid abstract college-level phrasing.',
+    );
+  } else if (requirements.gradeLevel && /Grade\s*(9|10)/i.test(requirements.gradeLevel)) {
+    lines.push(
+      'For this grade band, explain formulas and school concepts step by step, with exam-style checks after core ideas.',
+    );
+  } else if (requirements.gradeLevel && /Grade\s*(11|12)/i.test(requirements.gradeLevel)) {
+    lines.push(
+      'For this grade band, go deeper where useful, but keep the explanation school-exam ready and structured.',
+    );
+  }
+
+  return lines.join('\n');
 }

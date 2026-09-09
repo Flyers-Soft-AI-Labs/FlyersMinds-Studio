@@ -21,6 +21,7 @@ import {
   buildVisionUserContent,
   uniquifyMediaElementIds,
   formatTeacherPersonaForPrompt,
+  buildSchoolContext,
 } from '@/lib/generation/generation-pipeline';
 import type { AgentInfo } from '@/lib/generation/generation-pipeline';
 import { MAX_PDF_CONTENT_CHARS, MAX_VISION_IMAGES } from '@/lib/constants/generation';
@@ -204,7 +205,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Build teacher context from agents (if available)
-    const teacherContext = formatTeacherPersonaForPrompt(agents);
+    const teacherContext = [formatTeacherPersonaForPrompt(agents), buildSchoolContext(requirements)]
+      .filter(Boolean)
+      .join('\n\n');
 
     const prompts = buildPrompt(PROMPT_IDS.REQUIREMENTS_TO_OUTLINES, {
       requirement: requirements.requirement,

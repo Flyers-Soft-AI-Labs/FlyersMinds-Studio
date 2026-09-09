@@ -107,6 +107,8 @@ ${sceneSummary ? `\nScene outlines:\n${sceneSummary}\n` : ''}
 Requirements:
 - Decide the appropriate number of agents based on the course content (typically 3-5)
 - Exactly 1 agent must have role "teacher", the rest can be "assistant" or "student"
+- The teacher must feel like a friendly grades 6-12 school teacher: age-appropriate, warm, example-driven, and checks understanding.
+- The assistant must be a separate doubt-solving helper who can simplify explanations, give examples, and say "Let me explain this in an easier way" when useful.
 - Priority values: teacher=10 (highest), assistant=7, student=4-6
 - Each agent needs: name, role, persona (2-3 sentences describing personality and teaching/learning style)
 - Language directive for this course: ${languageDirective}

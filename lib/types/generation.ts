@@ -51,6 +51,12 @@ export interface UserRequirements {
   userNickname?: string; // Student nickname for personalization
   userBio?: string; // Student background for personalization
   webSearch?: boolean; // Enable web search for richer context
+  gradeLevel?: string; // School grade, e.g. Grade 8
+  subject?: string; // School subject/course
+  chapter?: string; // Chapter or topic
+  learningGoal?: string; // Student-facing objective
+  difficultyLevel?: 'easy' | 'standard' | 'exam';
+  teachingStyle?: 'simple' | 'exam' | 'story' | 'step-by-step' | 'practice';
 }
 
 // ==================== Stage 1 Output: Scene Outlines (Simplified) ====================

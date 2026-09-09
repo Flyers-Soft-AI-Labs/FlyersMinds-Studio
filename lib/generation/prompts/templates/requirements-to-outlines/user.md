@@ -47,6 +47,8 @@ Please automatically infer the following from user requirements:
 - Teaching style (formal/casual/interactive/academic)
 - Visual style (minimal/colorful/professional/playful)
 
+When school classroom context is provided, treat it as mandatory. The lesson must feel like a grades 6-12 school class, not a generic open-ended AI demo. Include age-appropriate examples, recap/checkpoints, short practice or quiz moments, and a teacher-led progression.
+
 Then output a JSON object with `languageDirective` and `outlines`. Each scene in the `outlines` array must include:
 
 ```json
